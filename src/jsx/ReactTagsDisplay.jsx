@@ -77,6 +77,13 @@ export default class ReactTagsDisplay extends React.Component {
         $(document).on('click', this.clearSuggestions.bind(this));
     }
 
+    /**
+     * Renders the tag component
+     *
+     * @memberOf ReactTagsDisplay
+     * @instance
+     * @returns {HTMLElement}
+     */
     render() {
         return (
             <div
@@ -108,6 +115,8 @@ export default class ReactTagsDisplay extends React.Component {
     /**
      * Renders a single tag
      *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {TagEntity} tag
      * @returns {HTMLElement}
      */
@@ -124,6 +133,8 @@ export default class ReactTagsDisplay extends React.Component {
     /**
      * Renders a tag suggestion
      *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {TagEntity} tag
      * @returns {HTMLElement}
      */
@@ -150,6 +161,8 @@ export default class ReactTagsDisplay extends React.Component {
     /**
      * Adds a tag by text only (new tag)
      *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {string} tagText
      */
     addTag(tagText) {
@@ -221,6 +234,9 @@ export default class ReactTagsDisplay extends React.Component {
 
     /**
      * Removes a tag from the collection
+     *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {TagEntity} tag
      * @param {Event|null} event
      */
@@ -252,6 +268,9 @@ export default class ReactTagsDisplay extends React.Component {
 
     /**
      * Resets the suggestions timeout handler
+     *
+     * @memberOf ReactTagsDisplay
+     * @instance
      */
     resetSuggestionsTimeout() {
         if (this.suggestionTimeout !== null) {
@@ -262,6 +281,9 @@ export default class ReactTagsDisplay extends React.Component {
 
     /**
      * Makes a call to suggestions and updates the set
+     *
+     * @memberOf ReactTagsDisplay
+     * @instance
      */
     updateSuggestions() {
         if (this.input.value !== '') {
@@ -294,6 +316,8 @@ export default class ReactTagsDisplay extends React.Component {
     /**
      * Reacts to key presses on tags input
      *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {Event} event
      */
     onKeyUp(event) {
@@ -323,7 +347,10 @@ export default class ReactTagsDisplay extends React.Component {
     }
 
     /**
+     * KeyPress event handler
      *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {Event} event
      */
     onKeyPress(event) {
@@ -347,6 +374,8 @@ export default class ReactTagsDisplay extends React.Component {
     /**
      * Reacts to clicks on the tags input
      *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {Event} event
      */
     handleFocus(event) {
@@ -359,6 +388,8 @@ export default class ReactTagsDisplay extends React.Component {
     /**
      * Inserts a suggested tag
      *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {TagEntity} tag
      * @param {Event} event
      */
@@ -374,6 +405,8 @@ export default class ReactTagsDisplay extends React.Component {
     /**
      * Clear suggestions on document click
      *
+     * @memberOf ReactTagsDisplay
+     * @instance
      * @param {Event} event
      */
     clearSuggestions(event) {
