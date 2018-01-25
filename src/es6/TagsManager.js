@@ -10,17 +10,17 @@ import ReactTagsDisplay from '../jsx/ReactTagsDisplay';
  * @param {HTMLElement} tagsContainer - The container where the tags will be rendered
  * @param {string} tagFieldNamePrefix - The field name of the hidden tag fields
  * @param {string} tagsTextLabel - The for attribute for the tags label
+ * @param {string} hxrRoute - The route to the xhr API call to bring suggestions
  *
  * @class TagsManager
  * @classdesc Manager for tag editing in posts
  */
 export default class TagsManager {
-    constructor(hiddenFieldsContainer, tagsContainer, tagFieldNamePrefix, tagsTextLabel) {
+    constructor(hiddenFieldsContainer, tagsContainer, tagFieldNamePrefix, tagsTextLabel, xhrRoute) {
         /**
-         *
          * @type {TagEntity[]}
          */
-        this.tags = [];
+        const tags = [];
 
         // Process existing form fields
         const tagFields = $.find('input[type=hidden]');
@@ -33,7 +33,7 @@ export default class TagsManager {
             const [label, tagId, tagField] = field.id.match(tagRegExp);
 
             if (Number(tagId) !== currentTagId) {
-                this.tags.push(currentTag);
+                tags.push(currentTag);
                 currentTagId = Number(tagId);
                 currentTag = {};
             }
@@ -46,17 +46,17 @@ export default class TagsManager {
         });
 
         if (currentTag.id && currentTag.text) {
-            this.tags.push(currentTag);
+            tags.push(currentTag);
         }
 
         this.tagsDisplay = ReactDOM.render(React.createElement(ReactTagsDisplay, {
-            fieldNamePrefix: tagFieldNamePrefix,
             hiddenFieldsContainer,
-            tagsTextLabel
+            tagsTextLabel,
+            xhrRoute
         }), tagsContainer);
 
         this.tagsDisplay.setState({
-            tags: this.tags
+            tags
         });
     }
 }

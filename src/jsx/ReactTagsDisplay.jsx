@@ -2,11 +2,6 @@ import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// TODO: Remove Routing
-const Routing = {
-    generate() {}
-};
-
 /**
  * @typedef {object} TagEntity
  * @property {number|null} id
@@ -290,9 +285,7 @@ export default class ReactTagsDisplay extends React.Component {
             this.resetSuggestionsTimeout();
 
             this.suggestionTimeout = setTimeout(() => {
-                const tagRoute = Routing.generate('admin_api_find_tags', {
-                    partial: this.input.value
-                });
+                const tagRoute = `${this.props.xhrRoute}/${this.input.value}`;
 
                 $.ajax(tagRoute, {
                     method: 'GET'
@@ -428,7 +421,8 @@ export default class ReactTagsDisplay extends React.Component {
 
 ReactTagsDisplay.propTypes = {
     hiddenFieldsContainer: PropTypes.instanceOf(HTMLElement).isRequired,
-    tagsTextLabel: PropTypes.string
+    tagsTextLabel: PropTypes.string,
+    xhrRoute: PropTypes.string.isRequired
 };
 
 ReactTagsDisplay.defaultProps = {

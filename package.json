@@ -4,10 +4,13 @@
   "description": "A set of React components mapped to JS classes for ease of use",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/jest tests/*.js",
     "lint": "./node_modules/.bin/eslint src/**/*.*",
     "docs": "node ./build/docs.js",
-    "build": "./node_modules/.bin/webpack"
+    "build": "./node_modules/.bin/webpack",
+    "prerelease": "npm run test",
+    "release": "npm run lint && npm run docs",
+    "postrelease": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,7 @@
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-jest": "^22.1.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -31,11 +35,13 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
+    "jest": "^22.1.4",
     "jquery": "^3.3.1",
     "jsdoc-to-markdown": "^4.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-test-renderer": "^16.2.0",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.10.0"
   }
