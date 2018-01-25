@@ -1,4 +1,4 @@
-import $ from "jquery";
+import $ from 'jquery';
 
 /**
  * Row properties object to define a row
@@ -71,9 +71,7 @@ export default class GridRow {
  * @static
  * @return {string}
  */
-GridRow.getNextRowId = () => {
-    return `'row_${GridRow.__nextRowId++}`;
-};
+GridRow.getNextRowId = () => (`'row_${GridRow.nextRowId++}`);
 
 /**
  * Next id row generator
@@ -82,4 +80,4 @@ GridRow.getNextRowId = () => {
  * @memberOf GridRow
  * @static
  */
-GridRow.__nextRowId = 0;
+GridRow.nextRowId = 0;

@@ -55,9 +55,9 @@ export default class ReactModal extends React.Component {
                     className: 'button action'
                 }
             ],
-            onSuccess: function() {},
-            onReject: function() {}
-        }
+            onSuccess() {},
+            onReject() {}
+        };
     }
 
     /**
@@ -68,19 +68,41 @@ export default class ReactModal extends React.Component {
      * @returns {XML}
      */
     render() {
-        const className = 'modal ' + (this.state.visible ? 'visible' : '');
+        const className = `modal ${this.state.visible ? 'visible' : ''}`;
         return (
             <div className={className}>
-                <h2>{this.state.title}{this.state.closable ? <span className="close" onClick={this.onModalClose.bind(this)}> x </span> : null }</h2>
+                <h2>
+                    {this.state.title}
+                    {
+                        this.state.closable ?
+                            <span className="close" onClick={this.onModalClose.bind(this)}> x </span> :
+                            null
+                    }
+                </h2>
                 <p>{this.state.message}</p>
                 <div className="buttons">
-                    { this.state.buttons.map((button) => {
-                        return (
-                            <button key={button.key} className={button.className} onClick={this.onModalButtonPressed.bind(this, button)}>{button.label}</button>
-                        );
-                    })}
+                    {this.state.buttons.map(this.renderButton.bind(this))}
                 </div>
             </div>
+        );
+    }
+
+    /**
+     * Renders a modal button
+     *
+     * @memberOf ReactModal
+     * @instance
+     * @param {ModalButton} button
+     */
+    renderButton(button) {
+        return (
+            <button
+                key={button.key}
+                className={button.className}
+                onClick={this.onModalButtonPressed.bind(this, button)}
+            >
+                {button.label}
+            </button>
         );
     }
 

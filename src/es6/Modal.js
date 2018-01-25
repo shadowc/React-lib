@@ -6,7 +6,7 @@ import ReactModal from '../jsx/ReactModal';
  * @class Modal
  * @classdesc Implements a modal class as a promise
  */
-export class Modal {
+export default class Modal {
     /**
      * Modal constructor
      */
@@ -15,13 +15,13 @@ export class Modal {
          * @type {ReactModal|null}
          * @private
          */
-        this._modal = null;
+        this.modal = null;
 
         /**
          * @type {HTMLElement|null}
          * @private
          */
-        this._container = null;
+        this.container = null;
     }
 
     /**
@@ -32,8 +32,8 @@ export class Modal {
      * @instance
      */
     render(container) {
-        this._container = container;
-        this._modal = ReactDOM.render(<ReactModal { ...this.props } />, container);
+        this.container = container;
+        this.modal = ReactDOM.render(React.createElement(ReactModal, { ...this.props }), container);
     }
 
     /**
@@ -50,10 +50,10 @@ export class Modal {
             options.onSuccess = success;
             options.onReject = reject;
 
-            this._modal.setState(options);
+            this.modal.setState(options);
 
-            this._container.style.left = ((window.innerWidth - this._container.offsetWidth) / 2) + 'px';
-            this._container.style.top = ((window.innerHeight - this._container.offsetHeight) / 2) + 'px';
+            this.container.style.left = `${(window.innerWidth - this.container.offsetWidth) / 2}px`;
+            this.container.style.top = `${(window.innerHeight - this.container.offsetHeight) / 2}px`;
         });
     }
 }
@@ -64,14 +64,12 @@ export class Modal {
  * @memberOf Modal
  * @static
  */
-Modal.getOkButton = () => {
-    return {
-        key: 'ok',
-        label: 'Ok',
-        success: true,
-        className: 'button button-action'
-    }
-};
+Modal.getOkButton = () => ({
+    key: 'ok',
+    label: 'Ok',
+    success: true,
+    className: 'button button-action'
+});
 
 /**
  * Creates a Yes button template
@@ -79,14 +77,12 @@ Modal.getOkButton = () => {
  * @memberOf Modal
  * @static
  */
-Modal.getYesButton = () => {
-    return {
-        key: 'yes',
-        label: 'Yes',
-        success: true,
-        className: 'button button-action'
-    }
-};
+Modal.getYesButton = () => ({
+    key: 'yes',
+    label: 'Yes',
+    success: true,
+    className: 'button button-action'
+});
 
 /**
  * Creates a No button template
@@ -94,11 +90,9 @@ Modal.getYesButton = () => {
  * @memberOf Modal
  * @static
  */
-Modal.getNoButton = () => {
-    return {
-        key: 'no',
-        label: 'No',
-        success: false,
-        className: 'button button-cancel'
-    }
-};
+Modal.getNoButton = () => ({
+    key: 'no',
+    label: 'No',
+    success: false,
+    className: 'button button-cancel'
+});

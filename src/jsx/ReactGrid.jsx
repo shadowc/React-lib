@@ -17,7 +17,6 @@ import GridColumn from '../es6/GridColumn';
  * @property {Object[]} rawData The raw data in the grid
  * @property {GridColumn[]} columns The columns of the grid
  * @property {GridRow[]} rows The rows in the grid
- * @property {string[]} selectedRows A collection of currently selected row ids
  * @property {number} prevSelectedRow The previously selected row
  * @property {string} orderBy The column name to order by
  * @property {boolean} orderReverse True of the order should be reversed
@@ -72,7 +71,6 @@ export default class ReactGrid extends React.Component {
             rawData: this.props.initialData,
             columns: cols,
             rows,
-            selectedRows: [],
             prevSelectedRow: -1,
             orderBy: this.props.orderBy,
             orderReverse: this.props.orderReverse,
@@ -113,10 +111,16 @@ export default class ReactGrid extends React.Component {
                     <thead><tr>{this.state.columns.map(this.renderColumn.bind(this))}</tr></thead>
                 </table>
                 <table className="table-body">
-                    <tbody>{ this.state.loading ?
-                        <tr><td colSpan={this.state.columns.length}><span className="icon loading"> </span></td></tr> :
-                        this.state.rows.map(this.renderRow.bind(this))
-                    }</tbody>
+                    <tbody>
+                        { this.state.loading ?
+                            <tr>
+                                <td colSpan={this.state.columns.length}>
+                                    <span className="icon loading">&nbsp;</span>
+                                </td>
+                            </tr> :
+                            this.state.rows.map(this.renderRow.bind(this))
+                        }
+                    </tbody>
                 </table>
             </div>
         );
@@ -134,8 +138,16 @@ export default class ReactGrid extends React.Component {
     renderColumn(column) {
         const style = { width: column.width };
 
-        return <th key={column.name} className={column.className} style={style}
-        onClick={this.generateHeaderClick.bind(this, column)}>{column.displayName}</th>;
+        return (
+            <th
+                key={column.name}
+                className={column.className}
+                style={style}
+                onClick={this.generateHeaderClick.bind(this, column)}
+            >
+                {column.displayName}
+            </th>
+        );
     }
 
     /**
@@ -151,8 +163,16 @@ export default class ReactGrid extends React.Component {
         const className = `${row.className} ${row.selected ? 'selected' : ''}`;
         const style = { display: row.show ? 'table-row' : 'none' };
 
-        return <tr key={row.id} id={row.id} className={className}
-        style={style}>{this.state.columns.map(this.renderCell.bind(this, row))}</tr>;
+        return (
+            <tr
+                key={row.id}
+                id={row.id}
+                className={className}
+                style={style}
+            >
+                {this.state.columns.map(this.renderCell.bind(this, row))}
+            </tr>
+        );
     }
 
     /**
@@ -168,9 +188,15 @@ export default class ReactGrid extends React.Component {
     renderCell(row, col) {
         const style = { width: col.width };
 
-        return <td key={`${row.id} ${col.name}`} style={style}
-        onClick={this.generateCellClick.bind(this, row, col.name)}>
-        {typeof col.format === 'function' ? col.format.call(this, row.data[col.name], row) : row.data[col.name]}</td>;
+        return (
+            <td
+                key={`${row.id} ${col.name}`}
+                style={style}
+                onClick={this.generateCellClick.bind(this, row, col.name)}
+            >
+                {typeof col.format === 'function' ? col.format.call(this, row.data[col.name], row) : row.data[col.name]}
+            </td>
+        );
     }
 
     /**
@@ -237,31 +263,31 @@ export default class ReactGrid extends React.Component {
         const rowNdx = this.getRowNdx(row);
         let updateLastRow = false;
 
-        const selectOneRow = (row) => {
-            const selected = !row.selected;
-            this.state.rows.forEach((row) => {
-                row.selected = false;
+        const selectOneRow = (curRow) => {
+            const selected = !curRow.selected;
+            this.state.rows.forEach((innerRow) => {
+                innerRow.selected = false;
             });
 
-            row.selected = selected;
+            curRow.selected = selected;
         };
 
-        const selectRowRangeExclusive = (row) => {
-            this.state.rows.forEach((row) => {
-                row.selected = false;
-            });
-
-            selectRowRange(row);
-        };
-
-        const selectRowRange = (row) => {
+        const selectRowRange = (curRow) => {
             if (this.state.prevSelectedRow > -1) {
                 const setFrom = Math.min(rowNdx, this.state.prevSelectedRow);
                 const setTo = Math.max(rowNdx, this.state.prevSelectedRow);
                 for (let i = setFrom; i <= setTo; i++) {
-                    row.selected = true;
+                    curRow.selected = true;
                 }
             }
+        };
+
+        const selectRowRangeExclusive = (curRow) => {
+            this.state.rows.forEach((innerRow) => {
+                innerRow.selected = false;
+            });
+
+            selectRowRange(curRow);
         };
 
         if (rowNdx !== -1) {
@@ -547,11 +573,10 @@ export default class ReactGrid extends React.Component {
     updateRow(id, data) {
         for (let i = 0; i < this.state.rows.length; i++) {
             let rowItem = this.state.rows[i];
-            let rawDataItem = this.state.rawData[i];
 
             if (rowItem.id === id) {
                 rowItem = new GridRow($.extend(true, {}, rowItem.data, data));
-                rawDataItem = $.extend(true, rowItem.data, data);
+                $.extend(true, rowItem.data, data);
 
                 this.setState({
                     rows: this.state.rows,
@@ -599,7 +624,7 @@ export default class ReactGrid extends React.Component {
     clear() {
         this.setState({
             rows: [],
-            rowData: []
+            rawData: []
         });
     }
 
@@ -624,13 +649,17 @@ export default class ReactGrid extends React.Component {
  * @static
  */
 ReactGrid.propTypes = {
-    id: PropTypes.string.isRequired,
-    columns: PropTypes.array.isRequired,
-    initialData: PropTypes.array,
+    id: PropTypes.string,
+    columns: PropTypes.arrayOf(PropTypes.instanceOf(GridColumn)),
+    initialData: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        data: PropTypes.object.isRequired,
+        className: PropTypes.string
+    })),
     selectable: PropTypes.bool,
     orderBy: PropTypes.string,
     orderReverse: PropTypes.bool,
-    sortings: PropTypes.object,
+    sortings: PropTypes.objectOf(PropTypes.func),
     onColumnHeaderClick: PropTypes.func,
     onCellClick: PropTypes.func
 };

@@ -17,16 +17,16 @@ import ReactGrid from '../jsx/ReactGrid';
  * @class Grid
  * @classdesc Grid main class, use this class to interface with grids
  */
-export class Grid {
+export default class Grid {
     constructor(props) {
         /**
          * The grid component reference
          *
-         * @name Grid#_grid
+         * @name Grid#grid
          * @type {ReactGrid}
          * @private
          */
-        this._grid = null;
+        this.grid = null;
 
         /**
          * The id of the grid
@@ -53,7 +53,7 @@ export class Grid {
      * @param {Element} container The container element into which to render the Component
      */
     render(container) {
-        this._grid = ReactDOM.render(<ReactGrid {... this.gridProps} />, container);
+        this.grid = ReactDOM.render(React.createElement(ReactGrid, { ...this.gridProps }), container);
     }
 
     /**
@@ -65,7 +65,7 @@ export class Grid {
      * @param {number} [ndx] An optional index into which to insert the rows
      */
     addRows(rows, ndx) {
-        this._grid.addRows(rows, ndx);
+        this.grid.addRows(rows, ndx);
     }
 
     /**
@@ -76,7 +76,7 @@ export class Grid {
      * @param {RowProps[]} rows The rows to set
      */
     setRows(rows) {
-        this._grid.setRows(rows);
+        this.grid.setRows(rows);
     }
 
     /**
@@ -88,7 +88,7 @@ export class Grid {
      * @param {number} [length=1] The number of rows to delete
      */
     deleteRows(ndx, length) {
-        this._grid.deleteRows(ndx, length);
+        this.grid.deleteRows(ndx, length);
     }
 
     /**
@@ -99,7 +99,7 @@ export class Grid {
      * @param {string} sortBy The column name to sort by
      */
     sortBy(sortBy) {
-        this._grid.sortBy(sortBy);
+        this.grid.sortBy(sortBy);
     }
 
     /**
@@ -110,7 +110,7 @@ export class Grid {
      * @return {SortType}
      */
     getSort() {
-        return this._grid.getSort();
+        return this.grid.getSort();
     }
 
     /**
@@ -122,7 +122,7 @@ export class Grid {
      * @return {GridRow|null}
      */
     getRow(ndx) {
-        return this._grid.getRow(ndx);
+        return this.grid.getRow(ndx);
     }
 
     /**
@@ -133,7 +133,7 @@ export class Grid {
      * @return {GridRow[]}
      */
     getSelectedRows() {
-        return this._grid.getSelectedRows();
+        return this.grid.getSelectedRows();
     }
 
     /**
@@ -144,7 +144,7 @@ export class Grid {
      * @return {string[]}
      */
     getSelectedRowIds() {
-        return this._grid.getSelectedRowIds();
+        return this.grid.getSelectedRowIds();
     }
 
     /**
@@ -154,7 +154,7 @@ export class Grid {
      * @returns {GridColumn[]}
      */
     getColumns() {
-        return this._grid.getColumns();
+        return this.grid.getColumns();
     }
 
     /**
@@ -164,7 +164,7 @@ export class Grid {
      * @param {GridColumn[]} columns
      */
     setColumns(columns) {
-        return this._grid.setColumns(columns);
+        return this.grid.setColumns(columns);
     }
 
     /**
@@ -176,7 +176,7 @@ export class Grid {
      * @return {GridRow|null}
      */
     getById(id) {
-        return this._grid.getById(id);
+        return this.grid.getById(id);
     }
 
     /**
@@ -187,7 +187,7 @@ export class Grid {
      * @param {string} id The id of the row to delete
      */
     deleteById(id) {
-        this._grid.deleteById(id);
+        this.grid.deleteById(id);
     }
 
     /**
@@ -199,7 +199,7 @@ export class Grid {
      * @param {*} data Partial or full row data to update
      */
     updateRow(id, data) {
-        this._grid.updateRow(id, data);
+        this.grid.updateRow(id, data);
     }
 
     /**
@@ -212,7 +212,7 @@ export class Grid {
      * @param {*} value The new value for the cell
      */
     updateCell(id, colName, value) {
-        this._grid.updateCell(id, colName, value);
+        this.grid.updateCell(id, colName, value);
     }
 
     /**
@@ -222,7 +222,7 @@ export class Grid {
      * @instance
      */
     clear() {
-        this._grid.clear();
+        this.grid.clear();
     }
 
     /**
@@ -233,6 +233,6 @@ export class Grid {
      * @param loading
      */
     setLoading(loading) {
-        this._grid.setLoading(loading);
+        this.grid.setLoading(loading);
     }
 }

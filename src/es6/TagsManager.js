@@ -14,7 +14,7 @@ import ReactTagsDisplay from '../jsx/ReactTagsDisplay';
  * @class TagsManager
  * @classdesc Manager for tag editing in posts
  */
-export class TagsManager {
+export default class TagsManager {
     constructor(hiddenFieldsContainer, tagsContainer, tagFieldNamePrefix, tagsTextLabel) {
         /**
          *
@@ -29,8 +29,8 @@ export class TagsManager {
         let currentTag = {};
 
         $(tagFields).each((ndx, field) => {
-            const tagRegExp = new RegExp("^" + tagFieldNamePrefix + "\\_(\\d+)\\_(id|text)$");
-            const [ label, tagId, tagField ] = field.id.match(tagRegExp);
+            const tagRegExp = new RegExp(`^${tagFieldNamePrefix}\\_(\\d+)\\_(id|text)$`);
+            const [label, tagId, tagField] = field.id.match(tagRegExp);
 
             if (Number(tagId) !== currentTagId) {
                 this.tags.push(currentTag);
@@ -38,7 +38,10 @@ export class TagsManager {
                 currentTag = {};
             }
 
-            currentTag.tagId = currentTag.tagId ? currentTag.tagId + "|" + label : label;
+            currentTag.tagId = currentTag.tagId ?
+                `${currentTag.tagId}|${label}` :
+                label;
+
             currentTag[tagField] = field.value;
         });
 
@@ -46,13 +49,13 @@ export class TagsManager {
             this.tags.push(currentTag);
         }
 
-        this._tagsDisplay = ReactDOM.render(<ReactTagsDisplay
-            fieldNamePrefix={tagFieldNamePrefix}
-            hiddenFieldsContainer={hiddenFieldsContainer}
-            tagsTextLabel={tagsTextLabel}
-        />, tagsContainer);
+        this.tagsDisplay = ReactDOM.render(React.createElement(ReactTagsDisplay, {
+            fieldNamePrefix: tagFieldNamePrefix,
+            hiddenFieldsContainer,
+            tagsTextLabel
+        }), tagsContainer);
 
-        this._tagsDisplay.setState({
+        this.tagsDisplay.setState({
             tags: this.tags
         });
     }

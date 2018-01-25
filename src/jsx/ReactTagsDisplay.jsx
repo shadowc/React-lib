@@ -2,6 +2,11 @@ import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// TODO: Remove Routing
+const Routing = {
+    generate() {}
+};
+
 /**
  * @typedef {object} TagEntity
  * @property {number|null} id
@@ -77,7 +82,8 @@ export default class ReactTagsDisplay extends React.Component {
             <div
                 className="tag-list"
                 onClick={this.handleFocus.bind(this)}
-            >{this.state.tags.map(this.renderTag.bind(this))}
+            >
+                {this.state.tags.map(this.renderTag.bind(this))}
                 <input
                     ref={(input) => { this.input = input; }}
                     type="text"
@@ -85,11 +91,15 @@ export default class ReactTagsDisplay extends React.Component {
                     id={this.props.tagsTextLabel ? this.props.tagsTextLabel : 'tags'}
                     name={this.props.tagsTextLabel ? this.props.tagsTextLabel : 'tags'}
                     onKeyPress={this.onKeyPress.bind(this)}
-                    onKeyUp={this.onKeyUp.bind(this)} />
+                    onKeyUp={this.onKeyUp.bind(this)}
+                />
                 {this.state.suggestions.length ?
                     <div
-                        className="tag_suggestions">{this.state.suggestions.map(this.renderSuggestion.bind(this))}</div> :
-                    ""
+                        className="tag_suggestions"
+                    >
+                        {this.state.suggestions.map(this.renderSuggestion.bind(this))}
+                    </div> :
+                    ''
                 }
             </div>
         );
@@ -105,7 +115,9 @@ export default class ReactTagsDisplay extends React.Component {
         return (
             <span
                 key={tag.text}
-            >{tag.text} <a href="#" onClick={this.removeTag.bind(this, tag)}>x</a></span>
+            >
+                {tag.text} <a href="#" onClick={this.removeTag.bind(this, tag)}>x</a>
+            </span>
         );
     }
 
@@ -116,18 +128,18 @@ export default class ReactTagsDisplay extends React.Component {
      * @returns {HTMLElement}
      */
     renderSuggestion(tag) {
-        const tagRegExp = new RegExp("^(.*)("+ this.input.value +")(.*)$", "i");
+        const tagRegExp = new RegExp(`^(.*)(${this.input.value})(.*)$`, 'i');
         const tagParts = tag.text.match(tagRegExp);
         let innerTag = tag.text;
 
         if (tagParts !== null && tagParts.length === 4) {
             const preTag = tagParts[1];
-            const tag = tagParts[2];
+            const tagText = tagParts[2];
             const postTag = tagParts[3];
 
-            innerTag = (<span>{preTag}<strong>{tag}</strong>{postTag}</span>)
+            innerTag = (<span>{preTag}<strong>{tagText}</strong>{postTag}</span>);
         } else {
-            innerTag = <span>{tag.text}</span>
+            innerTag = <span>{tag.text}</span>;
         }
 
         return (
@@ -180,16 +192,18 @@ export default class ReactTagsDisplay extends React.Component {
             }
         }
 
-        const newFieldTemplate = this.props.hiddenFieldsContainer.getAttribute('data-prototype').
-        replace(/__name__/g, this.newTagIndex.toString(10));
+        const newFieldTemplate = this.props.hiddenFieldsContainer
+            .getAttribute('data-prototype')
+            .replace(/__name__/g, this.newTagIndex.toString(10));
+
         this.newTagIndex += 1;
 
         $(this.props.hiddenFieldsContainer).append(newFieldTemplate);
         this.hiddenTags[this.hiddenTags.length - 2].value = tagIdFromSuggestions;
         this.hiddenTags[this.hiddenTags.length - 1].value = tagText;
 
-        const newTagIds = this.hiddenTags[this.hiddenTags.length - 2].id + '|' +
-            this.hiddenTags[this.hiddenTags.length - 1].id;
+        const newTagIds =
+            `${this.hiddenTags[this.hiddenTags.length - 2].id}|${this.hiddenTags[this.hiddenTags.length - 1].id}`;
 
         this.state.tags.push({
             id: null,
@@ -269,7 +283,6 @@ export default class ReactTagsDisplay extends React.Component {
                     }
                 });
             }, 200);
-
         } else {
             this.resetSuggestionsTimeout();
 
@@ -291,7 +304,7 @@ export default class ReactTagsDisplay extends React.Component {
          */
         if (event.key === 'Backspace' && this.prevInputValue === '') {
             if (this.state.tags.length) {
-                this.state.tags.length = this.state.tags.length - 1;
+                this.state.tags.splice(this.state.tags.length - 1, 1);
                 this.setState({
                     tags: this.state.tags
                 });
@@ -302,7 +315,7 @@ export default class ReactTagsDisplay extends React.Component {
         span.style.fontSize = '16px';
         span.innerHTML = this.input.value.replace(/\s/g, '&nbsp;');
         this.body.appendChild(span);
-        this.input.style.width = span.offsetWidth + 'px';
+        this.input.style.width = `${span.offsetWidth}px`;
         this.body.removeChild(span);
 
         this.prevInputValue = this.input.value;
@@ -315,16 +328,19 @@ export default class ReactTagsDisplay extends React.Component {
      */
     onKeyPress(event) {
         const evtKey = event.key;
-        switch (evtKey) {
-            case (','):
-            case ('Enter'):
-                this.addTag(this.input.value);
-                this.input.value = '';
-                this.prevInputValue = '';
-                this.input.style.width = '5px';
 
-                event.preventDefault();
-                break;
+        switch (evtKey) {
+        case (','):
+        case ('Enter'):
+            this.addTag(this.input.value);
+            this.input.value = '';
+            this.prevInputValue = '';
+            this.input.style.width = '5px';
+
+            event.preventDefault();
+            break;
+        default:
+            break;
         }
     }
 
@@ -378,7 +394,10 @@ export default class ReactTagsDisplay extends React.Component {
 }
 
 ReactTagsDisplay.propTypes = {
-    fieldNamePrefix: PropTypes.string.isRequired,
-    hiddenFieldsContainer: PropTypes.object.isRequired,
+    hiddenFieldsContainer: PropTypes.instanceOf(HTMLElement).isRequired,
     tagsTextLabel: PropTypes.string
+};
+
+ReactTagsDisplay.defaultProps = {
+    tagsTextLabel: 'text'
 };
