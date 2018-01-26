@@ -1054,8 +1054,8 @@ Definition for ReactGrid props object
 | columns | [<code>Array.&lt;ColumnProps&gt;</code>](#ColumnProps) |  | The columns definition for the grid |
 | initialData | [<code>Array.&lt;RowProps&gt;</code>](#RowProps) |  | The initial data to populate the grid |
 | orderBy | <code>string</code> |  | The column name that we're sorting for |
-| orderReverse | <code>boolean</code> |  | True if we're in reverse order |
-| sortings | <code>Object.&lt;string, SortCallback&gt;</code> |  | A set of sorting functions for each sortable column |
+| [orderReverse] | <code>boolean</code> | <code>false</code> | True if we're in reverse order |
+| [sortings] | <code>Object.&lt;string, SortCallback&gt;</code> |  | A set of sorting functions for each sortable column |
 
 <a name="ModalState"></a>
 
