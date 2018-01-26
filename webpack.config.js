@@ -21,10 +21,10 @@ const babelLoaderReact = {
 
 module.exports = {
     entry: {
-        ReactComponentsLib: path.resolve(__dirname, 'src', 'es6', 'ReactLib.js'),
-        ReactGrid: path.resolve(__dirname, 'src', 'es6', 'Grid.js'),
-        ReactModal: path.resolve(__dirname, 'src', 'es6', 'Modal.js'),
-        ReactTagsManager: path.resolve(__dirname, 'src', 'es6', 'TagsManager.js')
+        ReactLib: path.resolve(__dirname, 'src', 'public', 'ReactLib.js'),
+        ReactGrid: path.resolve(__dirname, 'src', 'public', 'ReactGrid.js'),
+        ReactModal: path.resolve(__dirname, 'src', 'public', 'ReactModal.js'),
+        ReactTagsManager: path.resolve(__dirname, 'src', 'public', 'ReactTagsManager.js')
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
