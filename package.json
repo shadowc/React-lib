@@ -1,6 +1,6 @@
 {
   "name": "react-lib",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A set of React components mapped to JS classes for ease of use",
   "main": "index.js",
   "scripts": {
@@ -44,5 +44,20 @@
     "react-test-renderer": "^16.2.0",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.10.0"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.jsx$": "babel-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
   }
 }
