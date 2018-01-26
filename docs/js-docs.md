@@ -483,7 +483,7 @@ Manager for tag editing in posts
 **Kind**: global class  
 <a name="new_TagsManager_new"></a>
 
-### new TagsManager(hiddenFieldsContainer, tagsContainer, tagFieldNamePrefix, tagsTextLabel, hxrRoute)
+### new TagsManager(hiddenFieldsContainer, tagsContainer, tagFieldNamePrefix, tagsTextLabel, hxrRouteCallback)
 TagsManager Constructor - Loads the tags present in the form
 
 
@@ -493,7 +493,7 @@ TagsManager Constructor - Loads the tags present in the form
 | tagsContainer | <code>HTMLElement</code> | The container where the tags will be rendered |
 | tagFieldNamePrefix | <code>string</code> | The field name of the hidden tag fields |
 | tagsTextLabel | <code>string</code> | The for attribute for the tags label |
-| hxrRoute | <code>string</code> | The route to the xhr API call to bring suggestions |
+| hxrRouteCallback | <code>function</code> | The route to the xhr API call to bring suggestions |
 
 <a name="ReactGrid"></a>
 

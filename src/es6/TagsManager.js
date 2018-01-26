@@ -10,13 +10,13 @@ import ReactTagsDisplay from '../jsx/ReactTagsDisplay';
  * @param {HTMLElement} tagsContainer - The container where the tags will be rendered
  * @param {string} tagFieldNamePrefix - The field name of the hidden tag fields
  * @param {string} tagsTextLabel - The for attribute for the tags label
- * @param {string} hxrRoute - The route to the xhr API call to bring suggestions
+ * @param {function} hxrRouteCallback - The route to the xhr API call to bring suggestions
  *
  * @class TagsManager
  * @classdesc Manager for tag editing in posts
  */
 export default class TagsManager {
-    constructor(hiddenFieldsContainer, tagsContainer, tagFieldNamePrefix, tagsTextLabel, xhrRoute) {
+    constructor(hiddenFieldsContainer, tagsContainer, tagFieldNamePrefix, tagsTextLabel, xhrRouteCallback) {
         /**
          * @type {TagEntity[]}
          */
@@ -52,7 +52,7 @@ export default class TagsManager {
         this.tagsDisplay = ReactDOM.render(React.createElement(ReactTagsDisplay, {
             hiddenFieldsContainer,
             tagsTextLabel,
-            xhrRoute
+            xhrRouteCallback
         }), tagsContainer);
 
         this.tagsDisplay.setState({

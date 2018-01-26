@@ -285,7 +285,7 @@ export default class ReactTagsDisplay extends React.Component {
             this.resetSuggestionsTimeout();
 
             this.suggestionTimeout = setTimeout(() => {
-                const tagRoute = `${this.props.xhrRoute}/${this.input.value}`;
+                const tagRoute = this.props.xhrRouteCallback(this.input.value);
 
                 $.ajax(tagRoute, {
                     method: 'GET'
@@ -422,7 +422,7 @@ export default class ReactTagsDisplay extends React.Component {
 ReactTagsDisplay.propTypes = {
     hiddenFieldsContainer: PropTypes.instanceOf(HTMLElement).isRequired,
     tagsTextLabel: PropTypes.string,
-    xhrRoute: PropTypes.string.isRequired
+    xhrRouteCallback: PropTypes.func.isRequired
 };
 
 ReactTagsDisplay.defaultProps = {
