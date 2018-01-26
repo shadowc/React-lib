@@ -650,7 +650,14 @@ export default class ReactGrid extends React.Component {
  */
 ReactGrid.propTypes = {
     id: PropTypes.string,
-    columns: PropTypes.arrayOf(PropTypes.instanceOf(GridColumn)),
+    columns: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        displayName: PropTypes.string,
+        width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        className: PropTypes.string,
+        format: PropTypes.func,
+        sortable: PropTypes.bool
+    })),
     initialData: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         data: PropTypes.object.isRequired,
