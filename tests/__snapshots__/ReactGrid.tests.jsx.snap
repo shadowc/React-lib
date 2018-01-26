@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReactGrid Test that we can render a ReactGrid component 1`] = `
+<div
+  className="table-wrapper"
+  id="grid"
+>
+  <table
+    className="table-header"
+  >
+    <thead>
+      <tr>
+        <th
+          className=""
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50px",
+            }
+          }
+        >
+          Id
+        </th>
+        <th
+          className=""
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50px",
+            }
+          }
+        >
+          Name
+        </th>
+      </tr>
+    </thead>
+  </table>
+  <table
+    className="table-body"
+  >
+    <tbody />
+  </table>
+</div>
+`;

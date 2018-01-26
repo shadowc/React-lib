@@ -41,8 +41,8 @@ import GridColumn from '../es6/GridColumn';
  * @property {ColumnProps[]} columns The columns definition for the grid
  * @property {RowProps[]} initialData The initial data to populate the grid
  * @property {string} orderBy The column name that we're sorting for
- * @property {boolean} orderReverse True if we're in reverse order
- * @property {Object.<string,SortCallback>} sortings A set of sorting functions
+ * @property {boolean} [orderReverse=false] True if we're in reverse order
+ * @property {Object.<string,SortCallback>} [sortings] A set of sorting functions
  * for each sortable column
  */
 

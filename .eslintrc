@@ -18,6 +18,7 @@
     "no-plusplus": ["off"],
     "no-param-reassign": ["off"],
     "no-else-return": ["off"],
+    "function-paren-newline": "off",
     "max-len": ["error", 120],
     "prefer-destructuring": ["off"],
     "import/no-extraneous-dependencies": "off",
