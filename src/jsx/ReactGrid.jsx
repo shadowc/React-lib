@@ -658,11 +658,7 @@ ReactGrid.propTypes = {
         format: PropTypes.func,
         sortable: PropTypes.bool
     })),
-    initialData: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        data: PropTypes.object.isRequired,
-        className: PropTypes.string
-    })),
+    initialData: PropTypes.arrayOf(PropTypes.object),
     selectable: PropTypes.bool,
     orderBy: PropTypes.string,
     orderReverse: PropTypes.bool,

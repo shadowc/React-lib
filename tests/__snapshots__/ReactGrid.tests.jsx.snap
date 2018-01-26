@@ -42,3 +42,107 @@ exports[`ReactGrid Test that we can render a ReactGrid component 1`] = `
   </table>
 </div>
 `;
+
+exports[`ReactGrid Test that we can render a ReactGrid component with 2 rows 1`] = `
+<div
+  className="table-wrapper"
+  id="grid"
+>
+  <table
+    className="table-header"
+  >
+    <thead>
+      <tr>
+        <th
+          className=""
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50px",
+            }
+          }
+        >
+          Id
+        </th>
+        <th
+          className=""
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50px",
+            }
+          }
+        >
+          Name
+        </th>
+      </tr>
+    </thead>
+  </table>
+  <table
+    className="table-body"
+  >
+    <tbody>
+      <tr
+        className=" "
+        id={1}
+        style={
+          Object {
+            "display": "table-row",
+          }
+        }
+      >
+        <td
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50px",
+            }
+          }
+        >
+          1
+        </td>
+        <td
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50px",
+            }
+          }
+        >
+          First
+        </td>
+      </tr>
+      <tr
+        className=" "
+        id={2}
+        style={
+          Object {
+            "display": "table-row",
+          }
+        }
+      >
+        <td
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50px",
+            }
+          }
+        >
+          2
+        </td>
+        <td
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "50px",
+            }
+          }
+        >
+          Second
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
