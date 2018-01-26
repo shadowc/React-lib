@@ -65,7 +65,7 @@ export default class ReactModal extends React.Component {
      *
      * @memberOf ReactModal
      * @instance
-     * @returns {XML}
+     * @return {HTMLElement}
      */
     render() {
         const className = `modal ${this.state.visible ? 'visible' : ''}`;
@@ -93,6 +93,7 @@ export default class ReactModal extends React.Component {
      * @memberOf ReactModal
      * @instance
      * @param {ModalButton} button
+     * @return {HTMLElement}
      */
     renderButton(button) {
         return (

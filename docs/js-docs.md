@@ -42,9 +42,6 @@
 <dt><a href="#RowProps">RowProps</a> : <code>object</code></dt>
 <dd><p>Row properties object to define a row</p>
 </dd>
-<dt><a href="#XML">XML</a> : <code>object</code></dt>
-<dd><p>XML type</p>
-</dd>
 <dt><a href="#GridState">GridState</a> : <code>object</code></dt>
 <dd><p>Definition for ReactGrid state object</p>
 </dd>
@@ -508,7 +505,7 @@ React Grid Component class
     * _instance_
         * [.state](#ReactGrid+state) : [<code>GridState</code>](#GridState)
         * [.sortRows()](#ReactGrid+sortRows)
-        * [.render()](#ReactGrid+render) ⇒ [<code>XML</code>](#XML)
+        * [.render()](#ReactGrid+render) ⇒ <code>HTMLElement</code>
         * [.generateHeaderClick(column, event)](#ReactGrid+generateHeaderClick) ⇒ <code>boolean</code>
         * [.generateCellClick(row, colName, event)](#ReactGrid+generateCellClick) ⇒ <code>boolean</code>
         * [.addRows(rows, [ndx])](#ReactGrid+addRows)
@@ -555,7 +552,7 @@ Sorts the rows in the grid
 **Kind**: instance method of [<code>ReactGrid</code>](#ReactGrid)  
 <a name="ReactGrid+render"></a>
 
-### reactGrid.render() ⇒ [<code>XML</code>](#XML)
+### reactGrid.render() ⇒ <code>HTMLElement</code>
 Renders the grid
 
 **Kind**: instance method of [<code>ReactGrid</code>](#ReactGrid)  
@@ -761,20 +758,20 @@ React Component for a modal dialog
 **Extends**: <code>React.Component</code>  
 
 * [ReactModal](#ReactModal) ⇐ <code>React.Component</code>
-    * [.render()](#ReactModal+render) ⇒ [<code>XML</code>](#XML)
-    * [.renderButton(button)](#ReactModal+renderButton)
+    * [.render()](#ReactModal+render) ⇒ <code>HTMLElement</code>
+    * [.renderButton(button)](#ReactModal+renderButton) ⇒ <code>HTMLElement</code>
     * [.onModalClose(event)](#ReactModal+onModalClose)
     * [.onModalButtonPressed(event, button)](#ReactModal+onModalButtonPressed)
 
 <a name="ReactModal+render"></a>
 
-### reactModal.render() ⇒ [<code>XML</code>](#XML)
+### reactModal.render() ⇒ <code>HTMLElement</code>
 Render the modal
 
 **Kind**: instance method of [<code>ReactModal</code>](#ReactModal)  
 <a name="ReactModal+renderButton"></a>
 
-### reactModal.renderButton(button)
+### reactModal.renderButton(button) ⇒ <code>HTMLElement</code>
 Renders a modal button
 
 **Kind**: instance method of [<code>ReactModal</code>](#ReactModal)  
@@ -1003,12 +1000,6 @@ Row properties object to define a row
 | data | <code>\*</code> | The raw data for the row |
 | [className] | <code>string</code> | The class for the row |
 
-<a name="XML"></a>
-
-## XML : <code>object</code>
-XML type
-
-**Kind**: global typedef  
 <a name="GridState"></a>
 
 ## GridState : <code>object</code>

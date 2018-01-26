@@ -5,12 +5,6 @@ import GridRow from '../es6/GridRow';
 import GridColumn from '../es6/GridColumn';
 
 /**
- * XML type
- *
- * @typedef {object} XML
- */
-
-/**
  * Definition for ReactGrid state object
  *
  * @typedef {object} GridState
@@ -101,7 +95,7 @@ export default class ReactGrid extends React.Component {
      *
      * @memberOf ReactGrid
      * @instance
-     * @return {XML}
+     * @return {HTMLElement}
      */
     render() {
         this.sortRows();
@@ -133,7 +127,7 @@ export default class ReactGrid extends React.Component {
      * @instance
      * @private
      * @param {GridColumn} column
-     * @return {XML}
+     * @return {HTMLElement}
      */
     renderColumn(column) {
         const style = { width: column.width };
@@ -157,7 +151,7 @@ export default class ReactGrid extends React.Component {
      * @instance
      * @private
      * @param {GridRow} row
-     * @return {XML}
+     * @return {HTMLElement}
      */
     renderRow(row) {
         const className = `${row.className} ${row.selected ? 'selected' : ''}`;
@@ -183,7 +177,7 @@ export default class ReactGrid extends React.Component {
      * @private
      * @param {GridRow} row
      * @param {GridColumn} col
-     * @return {XML}
+     * @return {HTMLElement}
      */
     renderCell(row, col) {
         const style = { width: col.width };
@@ -507,7 +501,7 @@ export default class ReactGrid extends React.Component {
      *
      * @memberOf ReactGrid
      * @instance
-     * @returns {GridColumn[]}
+     * @return {GridColumn[]}
      */
     getColumns() {
         return this.state.columns;

@@ -77,7 +77,7 @@ export default class ReactTagsDisplay extends React.Component {
      *
      * @memberOf ReactTagsDisplay
      * @instance
-     * @returns {HTMLElement}
+     * @return {HTMLElement}
      */
     render() {
         return (
@@ -113,7 +113,7 @@ export default class ReactTagsDisplay extends React.Component {
      * @memberOf ReactTagsDisplay
      * @instance
      * @param {TagEntity} tag
-     * @returns {HTMLElement}
+     * @return {HTMLElement}
      */
     renderTag(tag) {
         return (
@@ -131,7 +131,7 @@ export default class ReactTagsDisplay extends React.Component {
      * @memberOf ReactTagsDisplay
      * @instance
      * @param {TagEntity} tag
-     * @returns {HTMLElement}
+     * @return {HTMLElement}
      */
     renderSuggestion(tag) {
         const tagRegExp = new RegExp(`^(.*)(${this.input.value})(.*)$`, 'i');
