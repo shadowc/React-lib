@@ -118,7 +118,7 @@ export default class Grid {
      *
      * @memberOf Grid
      * @instance
-     * @param {number} ndx The index at whitch to retrieve the row
+     * @param {number} ndx The index at which to retrieve the row
      * @return {GridRow|null}
      */
     getRow(ndx) {
@@ -234,5 +234,16 @@ export default class Grid {
      */
     setLoading(loading) {
         this.grid.setLoading(loading);
+    }
+
+    /**
+     * Sets the grid enabled or disabled
+     *
+     * @memberOf Grid
+     * @instance
+     * @param enabled
+     */
+    setEnabled(enabled) {
+        this.grid.setEnabled(enabled);
     }
 }

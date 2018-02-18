@@ -15,6 +15,7 @@ import GridColumn from '../es6/GridColumn';
  * @property {string} orderBy The column name to order by
  * @property {boolean} orderReverse True of the order should be reversed
  * @property {boolean} loading True if the grid shows a loading spinner
+ * @property {boolean} enabled True if the grid is interactive
  */
 
 /**
@@ -47,11 +48,13 @@ import GridColumn from '../es6/GridColumn';
  * @property {string} orderBy The column name that we're sorting for
  * @property {boolean} [orderReverse=false] True if we're in reverse order
  * @property {Object.<string,SortCallback>} [sortings] A set of sorting functions
- * @property {classNameCallback} [rowClassName] A callback to set the classname of a row
+ * @property {classNameCallback} [rowClassName] A callback to set the className of a row
  * based on its data
- * @property {classNameCallback} [cellClassName] A callback to set the classname of a cell
+ * @property {classNameCallback} [cellClassName] A callback to set the className of a cell
  * based on its data
  * for each sortable column
+ * @property {boolean} [selectable=true] True if the grid is selectable
+ * @property {boolean} [multiselect=false] True if we will enable multiselect in the grid
  */
 
 /**
@@ -82,7 +85,8 @@ export default class ReactGrid extends React.Component {
             prevSelectedRow: -1,
             orderBy: this.props.orderBy,
             orderReverse: this.props.orderReverse,
-            loading: false
+            loading: false,
+            enabled: true
         };
     }
 
@@ -112,9 +116,10 @@ export default class ReactGrid extends React.Component {
      * @return {HTMLElement}
      */
     render() {
+        const className = `table-wrapper${this.state.enabled ? '' : ' disabled'}`;
         this.sortRows();
         return (
-            <div className="table-wrapper" id={this.props.id}>
+            <div className={className} id={this.props.id}>
                 <table className="table-header">
                     <thead><tr>{this.state.columns.map(this.renderColumn.bind(this))}</tr></thead>
                 </table>
@@ -197,6 +202,9 @@ export default class ReactGrid extends React.Component {
     renderCell(row, col) {
         const className = this.props.cellClassName(row.data, col);
         const style = { width: col.width };
+        const contents = typeof col.format === 'function' ?
+            col.format.call(this, row.data[col.name], row) :
+            row.data[col.name].toString();
 
         return (
             <td
@@ -205,7 +213,10 @@ export default class ReactGrid extends React.Component {
                 className={className}
                 onClick={this.generateCellClick.bind(this, row, col.name)}
             >
-                {typeof col.format === 'function' ? col.format.call(this, row.data[col.name], row) : row.data[col.name]}
+                {typeof contents === 'string' ?
+                    contents :
+                    React.createElement('span', null, contents)
+                }
             </td>
         );
     }
@@ -222,6 +233,10 @@ export default class ReactGrid extends React.Component {
     generateHeaderClick(column, event) {
         event.preventDefault();
         event.stopPropagation();
+
+        if (!this.state.enabled) {
+            return false;
+        }
 
         const headerEvent = new CustomEvent('HeaderClick', { detail: column });
 
@@ -271,6 +286,10 @@ export default class ReactGrid extends React.Component {
         event.preventDefault();
         event.stopPropagation();
 
+        if (!this.state.enabled) {
+            return false;
+        }
+
         const rowNdx = this.getRowNdx(row);
         let updateLastRow = false;
 
@@ -307,14 +326,14 @@ export default class ReactGrid extends React.Component {
                     // normal select
                     selectOneRow(row);
                     updateLastRow = true;
-                } else if (event.shiftKey) {
+                } else if (event.shiftKey && this.props.multiselect) {
                     // multi selection
                     selectRowRangeExclusive(row);
-                } else if (event.ctrlKey) {
+                } else if (event.ctrlKey && this.props.multiselect) {
                     // multi selection
                     row.selected = !row.selected;
                     updateLastRow = true;
-                } else if (event.shiftKey && event.ctrlKey) {
+                } else if (event.shiftKey && event.ctrlKey && this.props.multiselect) {
                     // multi selection
                     selectRowRange(row);
                 }
@@ -653,6 +672,19 @@ export default class ReactGrid extends React.Component {
             loading
         });
     }
+
+    /**
+     * Sets the grid enabled or disabled
+     *
+     * @memberOf ReactGrid
+     * @instance
+     * @param enabled
+     */
+    setEnabled(enabled) {
+        this.setState({
+            enabled
+        });
+    }
 }
 
 /**
@@ -674,6 +706,7 @@ ReactGrid.propTypes = {
     })),
     initialData: PropTypes.arrayOf(PropTypes.object),
     selectable: PropTypes.bool,
+    multiselect: PropTypes.bool,
     orderBy: PropTypes.string,
     orderReverse: PropTypes.bool,
     sortings: PropTypes.objectOf(PropTypes.func),
@@ -695,6 +728,7 @@ ReactGrid.defaultProps = {
     columns: [],
     orderBy: '',
     selectable: true,
+    multiselect: false,
     orderReverse: false,
     sortings: {},
     initialData: [],

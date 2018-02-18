@@ -4,7 +4,7 @@
  * @callback FormattingCallback
  * @param {*} value Cell value
  * @param {GridRow} row The entire row
- * @return {string}
+ * @return {string|HTMLElement|React.Component}
  */
 
 /**

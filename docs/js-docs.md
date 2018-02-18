@@ -25,6 +25,9 @@
 <dt><a href="#ReactTagsDisplay">ReactTagsDisplay</a> ⇐ <code>React.Component</code></dt>
 <dd><p>Display class for tag elements</p>
 </dd>
+<dt><a href="#ReactTree">ReactTree</a></dt>
+<dd><p>React Tree component class</p>
+</dd>
 </dl>
 
 ## Typedefs
@@ -33,7 +36,7 @@
 <dt><a href="#SortType">SortType</a> : <code>object</code></dt>
 <dd><p>Definition of a sort state</p>
 </dd>
-<dt><a href="#FormattingCallback">FormattingCallback</a> ⇒ <code>string</code></dt>
+<dt><a href="#FormattingCallback">FormattingCallback</a> ⇒ <code>string</code> | <code>HTMLElement</code> | <code>React.Component</code></dt>
 <dd><p>Formatting function for a cell value</p>
 </dd>
 <dt><a href="#ColumnProps">ColumnProps</a> : <code>object</code></dt>
@@ -49,6 +52,10 @@
 <dd><p>Sort function callback, should return -1 if a is lower than b,
 0 if rows are equal and 1 if a is greater than b</p>
 </dd>
+<dt><a href="#classNameCallback">classNameCallback</a> ⇒ <code>string</code></dt>
+<dd><p>ClassName callback, a function to return a className (string)
+based on row/column information</p>
+</dd>
 <dt><a href="#GridProps">GridProps</a> : <code>object</code></dt>
 <dd><p>Definition for ReactGrid props object</p>
 </dd>
@@ -63,6 +70,15 @@
 <dd></dd>
 <dt><a href="#TagsState">TagsState</a> : <code>object</code></dt>
 <dd></dd>
+<dt><a href="#TreeItem">TreeItem</a> : <code>Object</code></dt>
+<dd><p>Definition for ReactTree TreeItem object</p>
+</dd>
+<dt><a href="#ReactTreeState">ReactTreeState</a> : <code>Object</code></dt>
+<dd><p>Definition for ReactTree State object</p>
+</dd>
+<dt><a href="#ReactTreeProps">ReactTreeProps</a> : <code>Object</code></dt>
+<dd><p>Definition for ReactTreeProps object</p>
+</dd>
 </dl>
 
 <a name="Grid"></a>
@@ -93,6 +109,7 @@ Grid main class, use this class to interface with grids
     * [.updateCell(id, colName, value)](#Grid+updateCell)
     * [.clear()](#Grid+clear)
     * [.setLoading(loading)](#Grid+setLoading)
+    * [.setEnabled(enabled)](#Grid+setEnabled)
 
 <a name="new_Grid_new"></a>
 
@@ -188,7 +205,7 @@ Gets a GridRow object representing the row at ndx
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ndx | <code>number</code> | The index at whitch to retrieve the row |
+| ndx | <code>number</code> | The index at which to retrieve the row |
 
 <a name="Grid+getSelectedRows"></a>
 
@@ -283,6 +300,17 @@ Sets the loading state of the grid
 | --- |
 | loading | 
 
+<a name="Grid+setEnabled"></a>
+
+### grid.setEnabled(enabled)
+Sets the grid enabled or disabled
+
+**Kind**: instance method of [<code>Grid</code>](#Grid)  
+
+| Param |
+| --- |
+| enabled | 
+
 <a name="GridColumn"></a>
 
 ## GridColumn
@@ -357,7 +385,6 @@ Class representing a Row in the Grid object
     * _instance_
         * [.id](#GridRow+id) : <code>string</code>
         * [.data](#GridRow+data) : <code>\*</code>
-        * [.className](#GridRow+className) : <code>string</code>
         * [.selected](#GridRow+selected) : <code>boolean</code>
         * [.show](#GridRow+show) : <code>boolean</code>
     * _static_
@@ -384,12 +411,6 @@ The unique id of the row
 
 ### gridRow.data : <code>\*</code>
 The raw data for the row
-
-**Kind**: instance property of [<code>GridRow</code>](#GridRow)  
-<a name="GridRow+className"></a>
-
-### gridRow.className : <code>string</code>
-The class for the row
 
 **Kind**: instance property of [<code>GridRow</code>](#GridRow)  
 <a name="GridRow+selected"></a>
@@ -524,6 +545,7 @@ React Grid Component class
         * [.updateCell(id, colName, value)](#ReactGrid+updateCell)
         * [.clear()](#ReactGrid+clear)
         * [.setLoading(loading)](#ReactGrid+setLoading)
+        * [.setEnabled(enabled)](#ReactGrid+setEnabled)
     * _static_
         * [.propTypes](#ReactGrid.propTypes) : [<code>GridProps</code>](#GridProps)
         * [.defaultProps](#ReactGrid.defaultProps) : [<code>GridProps</code>](#GridProps)
@@ -737,6 +759,17 @@ Sets the loading state of the grid
 | --- | --- |
 | loading | <code>boolean</code> | 
 
+<a name="ReactGrid+setEnabled"></a>
+
+### reactGrid.setEnabled(enabled)
+Sets the grid enabled or disabled
+
+**Kind**: instance method of [<code>ReactGrid</code>](#ReactGrid)  
+
+| Param |
+| --- |
+| enabled | 
+
 <a name="ReactGrid.propTypes"></a>
 
 ### ReactGrid.propTypes : [<code>GridProps</code>](#GridProps)
@@ -944,6 +977,205 @@ Clear suggestions on document click
 | --- | --- |
 | event | <code>Event</code> | 
 
+<a name="ReactTree"></a>
+
+## ReactTree
+React Tree component class
+
+**Kind**: global class  
+
+* [ReactTree](#ReactTree)
+    * [new ReactTree(props)](#new_ReactTree_new)
+    * _instance_
+        * [.render()](#ReactTree+render)
+        * [.renderItem(item)](#ReactTree+renderItem)
+        * [.setLoading(loading)](#ReactTree+setLoading)
+        * [.setData(root, [sort])](#ReactTree+setData)
+        * [.sort(tree)](#ReactTree+sort)
+        * [.selectItem(id, event)](#ReactTree+selectItem)
+        * [.getSelectedItemId()](#ReactTree+getSelectedItemId) ⇒ <code>string</code>
+        * [.generateItemClick(event, selectedItem)](#ReactTree+generateItemClick) ⇒ <code>boolean</code>
+        * [.addItem(item)](#ReactTree+addItem)
+        * [.updateItem(item)](#ReactTree+updateItem)
+        * [.deleteItemById(id)](#ReactTree+deleteItemById)
+        * [.findItemById(id)](#ReactTree+findItemById) ⇒ [<code>TreeItem</code>](#TreeItem) \| <code>null</code>
+        * [.setEnabled(enabled)](#ReactTree+setEnabled)
+        * [.expandAll()](#ReactTree+expandAll)
+        * [.contractAll()](#ReactTree+contractAll)
+    * _static_
+        * [.propTypes](#ReactTree.propTypes) : [<code>ReactTreeProps</code>](#ReactTreeProps)
+        * [.defaultProps](#ReactTree.defaultProps) : [<code>ReactTreeProps</code>](#ReactTreeProps)
+
+<a name="new_ReactTree_new"></a>
+
+### new ReactTree(props)
+Constructor for the ReactTree component
+
+
+| Param | Type |
+| --- | --- |
+| props | [<code>ReactTreeProps</code>](#ReactTreeProps) | 
+
+<a name="ReactTree+render"></a>
+
+### reactTree.render()
+ReactTree render function
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+<a name="ReactTree+renderItem"></a>
+
+### reactTree.renderItem(item)
+Render a tree item and its children
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type |
+| --- | --- |
+| item | [<code>TreeItem</code>](#TreeItem) | 
+
+<a name="ReactTree+setLoading"></a>
+
+### reactTree.setLoading(loading)
+Sets the loading state of the tree
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| loading | <code>boolean</code> | True if the tree shows only a loading spinner |
+
+<a name="ReactTree+setData"></a>
+
+### reactTree.setData(root, [sort])
+Sets data on the tree and removes all previous data
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| root | [<code>Array.&lt;TreeItem&gt;</code>](#TreeItem) |  | 
+| [sort] | <code>boolean</code> | <code>true</code> | 
+
+<a name="ReactTree+sort"></a>
+
+### reactTree.sort(tree)
+Sorts data in a tree branch
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type |
+| --- | --- |
+| tree | [<code>Array.&lt;TreeItem&gt;</code>](#TreeItem) | 
+
+<a name="ReactTree+selectItem"></a>
+
+### reactTree.selectItem(id, event)
+Selects an item in the tree by id
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type |
+| --- | --- |
+| id | <code>string</code> | 
+| event | <code>Event</code> \| <code>null</code> | 
+
+<a name="ReactTree+getSelectedItemId"></a>
+
+### reactTree.getSelectedItemId() ⇒ <code>string</code>
+Gets the selected item
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+<a name="ReactTree+generateItemClick"></a>
+
+### reactTree.generateItemClick(event, selectedItem) ⇒ <code>boolean</code>
+Fires an event on ReactTree root element that can be listened to
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type |
+| --- | --- |
+| event | <code>Event</code> | 
+| selectedItem | <code>string</code> | 
+
+<a name="ReactTree+addItem"></a>
+
+### reactTree.addItem(item)
+Adds an item to the tree
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type |
+| --- | --- |
+| item | [<code>TreeItem</code>](#TreeItem) | 
+
+<a name="ReactTree+updateItem"></a>
+
+### reactTree.updateItem(item)
+Updates an item in the tree
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type |
+| --- | --- |
+| item | [<code>TreeItem</code>](#TreeItem) | 
+
+<a name="ReactTree+deleteItemById"></a>
+
+### reactTree.deleteItemById(id)
+Deletes an item by id
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type |
+| --- | --- |
+| id | <code>string</code> \| <code>number</code> | 
+
+<a name="ReactTree+findItemById"></a>
+
+### reactTree.findItemById(id) ⇒ [<code>TreeItem</code>](#TreeItem) \| <code>null</code>
+Finds an item in the tree by id
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> \| <code>number</code> | The id of the item |
+
+<a name="ReactTree+setEnabled"></a>
+
+### reactTree.setEnabled(enabled)
+Sets the enabled property of the grid
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+
+| Param | Type |
+| --- | --- |
+| enabled | <code>boolean</code> | 
+
+<a name="ReactTree+expandAll"></a>
+
+### reactTree.expandAll()
+Expands all tree items
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+<a name="ReactTree+contractAll"></a>
+
+### reactTree.contractAll()
+Contracts all tree items
+
+**Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  
+<a name="ReactTree.propTypes"></a>
+
+### ReactTree.propTypes : [<code>ReactTreeProps</code>](#ReactTreeProps)
+ReactTree propTypes
+
+**Kind**: static property of [<code>ReactTree</code>](#ReactTree)  
+<a name="ReactTree.defaultProps"></a>
+
+### ReactTree.defaultProps : [<code>ReactTreeProps</code>](#ReactTreeProps)
+ReactTree default props
+
+**Kind**: static property of [<code>ReactTree</code>](#ReactTree)  
 <a name="SortType"></a>
 
 ## SortType : <code>object</code>
@@ -959,7 +1191,7 @@ Definition of a sort state
 
 <a name="FormattingCallback"></a>
 
-## FormattingCallback ⇒ <code>string</code>
+## FormattingCallback ⇒ <code>string</code> \| <code>HTMLElement</code> \| <code>React.Component</code>
 Formatting function for a cell value
 
 **Kind**: global typedef  
@@ -998,7 +1230,6 @@ Row properties object to define a row
 | --- | --- | --- |
 | [id] | <code>string</code> | The unique id of the row |
 | data | <code>\*</code> | The raw data for the row |
-| [className] | <code>string</code> | The class for the row |
 
 <a name="GridState"></a>
 
@@ -1017,6 +1248,7 @@ Definition for ReactGrid state object
 | orderBy | <code>string</code> | The column name to order by |
 | orderReverse | <code>boolean</code> | True of the order should be reversed |
 | loading | <code>boolean</code> | True if the grid shows a loading spinner |
+| enabled | <code>boolean</code> | True if the grid is interactive |
 
 <a name="SortCallback"></a>
 
@@ -1030,6 +1262,19 @@ Sort function callback, should return -1 if a is lower than b,
 | --- | --- | --- |
 | a | [<code>GridRow</code>](#GridRow) | Row a |
 | b | [<code>GridRow</code>](#GridRow) | Row b |
+
+<a name="classNameCallback"></a>
+
+## classNameCallback ⇒ <code>string</code>
+ClassName callback, a function to return a className (string)
+based on row/column information
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| row | <code>\*</code> | The row data |
+| [column] | <code>string</code> | The column we're rendering (for cell classNames) |
 
 <a name="GridProps"></a>
 
@@ -1046,7 +1291,11 @@ Definition for ReactGrid props object
 | initialData | [<code>Array.&lt;RowProps&gt;</code>](#RowProps) |  | The initial data to populate the grid |
 | orderBy | <code>string</code> |  | The column name that we're sorting for |
 | [orderReverse] | <code>boolean</code> | <code>false</code> | True if we're in reverse order |
-| [sortings] | <code>Object.&lt;string, SortCallback&gt;</code> |  | A set of sorting functions for each sortable column |
+| [sortings] | <code>Object.&lt;string, SortCallback&gt;</code> |  | A set of sorting functions |
+| [rowClassName] | [<code>classNameCallback</code>](#classNameCallback) |  | A callback to set the className of a row based on its data |
+| [cellClassName] | [<code>classNameCallback</code>](#classNameCallback) |  | A callback to set the className of a cell based on its data for each sortable column |
+| [selectable] | <code>boolean</code> | <code>true</code> | True if the grid is selectable |
+| [multiselect] | <code>boolean</code> | <code>false</code> | True if we will enable multiselect in the grid |
 
 <a name="ModalState"></a>
 
@@ -1111,4 +1360,49 @@ Callback for modal close events
 | --- | --- |
 | tags | [<code>Array.&lt;TagEntity&gt;</code>](#TagEntity) | 
 | suggestions | [<code>Array.&lt;TagEntity&gt;</code>](#TagEntity) | 
+
+<a name="TreeItem"></a>
+
+## TreeItem : <code>Object</code>
+Definition for ReactTree TreeItem object
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| id | <code>string</code> \| <code>number</code> |  | The unique id of the item |
+| [parentId] | <code>string</code> \| <code>number</code> | <code>0</code> | The parent id of the item |
+| children | [<code>Array.&lt;TreeItem&gt;</code>](#TreeItem) |  | The item's children |
+
+<a name="ReactTreeState"></a>
+
+## ReactTreeState : <code>Object</code>
+Definition for ReactTree State object
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| root | [<code>Array.&lt;TreeItem&gt;</code>](#TreeItem) | The root item containing tree root children |
+| loading | <code>boolean</code> | True if the grid is in the loading state |
+| selectedItem | <code>string</code> \| <code>null</code> | The id of the selected item |
+| expandedIds | <code>Object.&lt;string, boolean&gt;</code> | A collection of the ids of expanded categories |
+| enabled | <code>boolean</code> | True if the tree is enabled |
+
+<a name="ReactTreeProps"></a>
+
+## ReactTreeProps : <code>Object</code>
+Definition for ReactTreeProps object
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Default |
+| --- | --- | --- |
+| [id] | <code>string</code> | <code>&quot;tree&quot;</code> | 
+| format | <code>function</code> |  | 
+| initialData | [<code>Array.&lt;TreeItem&gt;</code>](#TreeItem) \| <code>null</code> |  | 
+| sort | [<code>SortCallback</code>](#SortCallback) \| <code>null</code> |  | 
 
