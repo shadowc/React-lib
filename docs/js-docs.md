@@ -533,7 +533,7 @@ Tree main class, use this class to interface with trees
     * [.getSelectedItemId()](#Tree+getSelectedItemId) ⇒ <code>string</code> \| <code>number</code>
     * [.addItem(item)](#Tree+addItem)
     * [.updateItem(item)](#Tree+updateItem)
-    * [.deleteItemByI(id)](#Tree+deleteItemByI)
+    * [.deleteItemById(id)](#Tree+deleteItemById)
     * [.findItemById(id)](#Tree+findItemById)
     * [.setEnabled(enabled)](#Tree+setEnabled)
     * [.expandAll()](#Tree+expandAll)
@@ -622,9 +622,9 @@ Updates an item in the tree
 | --- | --- | --- |
 | item | [<code>TreeItem</code>](#TreeItem) | The item to update |
 
-<a name="Tree+deleteItemByI"></a>
+<a name="Tree+deleteItemById"></a>
 
-### tree.deleteItemByI(id)
+### tree.deleteItemById(id)
 Deletes an item by id
 
 **Kind**: instance method of [<code>Tree</code>](#Tree)  

@@ -110,7 +110,7 @@ export default class Tree {
      * @instance
      * @param {string|number} id The item id to delete
      */
-    deleteItemByI(id) {
+    deleteItemById(id) {
         this.tree.deleteItemById(id);
     }
 

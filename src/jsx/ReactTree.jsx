@@ -263,7 +263,7 @@ export default class ReactTree extends React.Component {
 
                 if (branch) {
                     branch.children.push(item);
-                    this.sort.branch();
+                    this.sort(branch.children);
                 } else {
                     cacheRoot.push(item);
                     this.sort(cacheRoot);
