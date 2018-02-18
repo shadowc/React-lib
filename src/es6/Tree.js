@@ -78,7 +78,7 @@ export default class Tree {
      * @return {string|number}
      */
     getSelectedItemId() {
-        this.tree.getSelectedItemId();
+        return this.tree.getSelectedItemId();
     }
 
     /**
@@ -122,7 +122,7 @@ export default class Tree {
      * @param {string|number} id The id of the item to find
      */
     findItemById(id) {
-        this.tree.findItemById(id);
+        return this.tree.findItemById(id);
     }
 
     /**
