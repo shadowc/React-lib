@@ -76,4 +76,59 @@ describe('Grid', () => {
         expect(myGrid.grid.state.rows[0]).toBeInstanceOf(GridRow);
         expect(myGrid.grid.state.rows[0].data.name).toEqual('Fifth');
     });
+
+    test('Test that we can update a row given its id and raw data', () => {
+        const myGrid = global.createGrid(gridDataMock);
+
+        expect(myGrid).toBeInstanceOf(Grid);
+
+        myGrid.render(document.createElement('div'));
+        myGrid.updateRow(1, {
+            id: 1,
+            name: 'Third'
+        });
+
+        expect(myGrid.grid.state.rawData.length).toEqual(2);
+        expect(myGrid.grid.state.rows.length).toEqual(2);
+        expect(myGrid.grid.state.rows[0]).toBeInstanceOf(GridRow);
+        expect(myGrid.grid.state.rows[0].data.name).toEqual('Third');
+        expect(myGrid.grid.state.rawData[0].name).toEqual('Third');
+    });
+
+    test('Test that we can delete a row by id', () => {
+        const myGrid = global.createGrid(gridDataMock);
+
+        expect(myGrid).toBeInstanceOf(Grid);
+
+        myGrid.render(document.createElement('div'));
+        myGrid.deleteById(1);
+
+        expect(myGrid.grid.state.rawData.length).toEqual(1);
+        expect(myGrid.grid.state.rows.length).toEqual(1);
+        expect(myGrid.grid.state.rows[0].data.name).toEqual('Second');
+        expect(myGrid.grid.state.rawData[0].name).toEqual('Second');
+    });
+
+    test('Test that we can getSelectedRowIds and use getById based on that', () => {
+        const myGrid = global.createGrid(gridDataMock);
+
+        expect(myGrid).toBeInstanceOf(Grid);
+
+        myGrid.render(document.createElement('div'));
+        myGrid.grid.state.rows[1].selected = true;
+        myGrid.grid.setState({
+            rows: myGrid.grid.state.rows
+        });
+
+        const rowIds = myGrid.getSelectedRowIds();
+
+        expect(rowIds.length).toEqual(1);
+        expect(rowIds[0]).toEqual(2);
+
+        const row = myGrid.getById(rowIds[0]);
+
+        expect(row).not.toBeNull();
+        expect(row.data.id).toEqual(2);
+        expect(row.data.name).toEqual('Second');
+    });
 });

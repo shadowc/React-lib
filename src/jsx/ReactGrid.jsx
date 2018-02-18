@@ -489,7 +489,7 @@ export default class ReactGrid extends React.Component {
 
         for (let i = 0; i < this.state.rows.length; i++) {
             if (this.state.rows[i].selected) {
-                ret.push(this.state.rows[i].id.toString());
+                ret.push(this.state.rows[i].id);
             }
         }
 
@@ -566,11 +566,14 @@ export default class ReactGrid extends React.Component {
      */
     updateRow(id, data) {
         for (let i = 0; i < this.state.rows.length; i++) {
-            let rowItem = this.state.rows[i];
+            const rowItem = this.state.rows[i];
+            const rawData = this.state.rawData[i];
 
             if (rowItem.id === id) {
-                rowItem = new GridRow($.extend(true, {}, rowItem.data, data));
-                $.extend(true, rowItem.data, data);
+                const newRow = new GridRow($.extend(true, rowItem.data, data));
+                const newRawData = $.extend(true, {}, rawData, data);
+                this.state.rows.splice(i, 1, newRow);
+                this.state.rawData.splice(i, 1, newRawData);
 
                 this.setState({
                     rows: this.state.rows,
