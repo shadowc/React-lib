@@ -23,6 +23,7 @@ module.exports = {
     entry: {
         ReactLib: path.resolve(__dirname, 'src', 'public', 'ReactLib.js'),
         ReactGrid: path.resolve(__dirname, 'src', 'public', 'ReactGrid.js'),
+        ReactTree: path.resolve(__dirname, 'src', 'public', 'ReactTree.js'),
         ReactModal: path.resolve(__dirname, 'src', 'public', 'ReactModal.js'),
         ReactTagsManager: path.resolve(__dirname, 'src', 'public', 'ReactTagsManager.js')
     },

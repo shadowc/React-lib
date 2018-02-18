@@ -16,6 +16,9 @@
 <dt><a href="#TagsManager">TagsManager</a></dt>
 <dd><p>Manager for tag editing in posts</p>
 </dd>
+<dt><a href="#Tree">Tree</a></dt>
+<dd><p>Tree main class, use this class to interface with trees</p>
+</dd>
 <dt><a href="#ReactGrid">ReactGrid</a> ⇐ <code>React.Component</code></dt>
 <dd><p>React Grid Component class</p>
 </dd>
@@ -513,6 +516,157 @@ TagsManager Constructor - Loads the tags present in the form
 | tagsTextLabel | <code>string</code> | The for attribute for the tags label |
 | hxrRouteCallback | <code>function</code> | The route to the xhr API call to bring suggestions |
 
+<a name="Tree"></a>
+
+## Tree
+Tree main class, use this class to interface with trees
+
+**Kind**: global class  
+
+* [Tree](#Tree)
+    * [new Tree(The)](#new_Tree_new)
+    * [.id](#Tree+id) : <code>string</code>
+    * [.props](#Tree+props) : [<code>ReactTreeProps</code>](#ReactTreeProps)
+    * [.render(container)](#Tree+render)
+    * [.setLoading(loading)](#Tree+setLoading)
+    * [.setData(data)](#Tree+setData)
+    * [.getSelectedItemId()](#Tree+getSelectedItemId) ⇒ <code>string</code> \| <code>number</code>
+    * [.addItem(item)](#Tree+addItem)
+    * [.updateItem(item)](#Tree+updateItem)
+    * [.deleteItemByI(id)](#Tree+deleteItemByI)
+    * [.findItemById(id)](#Tree+findItemById)
+    * [.setEnabled(enabled)](#Tree+setEnabled)
+    * [.expandAll()](#Tree+expandAll)
+    * [.contractAll()](#Tree+contractAll)
+
+<a name="new_Tree_new"></a>
+
+### new Tree(The)
+Tree class constructor
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| The | [<code>ReactTreeProps</code>](#ReactTreeProps) | properties of the tree |
+
+<a name="Tree+id"></a>
+
+### tree.id : <code>string</code>
+The id of the tree
+
+**Kind**: instance property of [<code>Tree</code>](#Tree)  
+<a name="Tree+props"></a>
+
+### tree.props : [<code>ReactTreeProps</code>](#ReactTreeProps)
+The props for the tree
+
+**Kind**: instance property of [<code>Tree</code>](#Tree)  
+<a name="Tree+render"></a>
+
+### tree.render(container)
+Renders the ReactTree Component within the tree container
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| container | <code>Element</code> | The container element into which to render the Component |
+
+<a name="Tree+setLoading"></a>
+
+### tree.setLoading(loading)
+Sets the loading state in the tree
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| loading | <code>boolean</code> | True if we show only a loading spinner |
+
+<a name="Tree+setData"></a>
+
+### tree.setData(data)
+Sets the initial data on the tree.
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | [<code>Array.&lt;TreeItem&gt;</code>](#TreeItem) | The root item list for the tree with all its children |
+
+<a name="Tree+getSelectedItemId"></a>
+
+### tree.getSelectedItemId() ⇒ <code>string</code> \| <code>number</code>
+Gets the selected item id
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+<a name="Tree+addItem"></a>
+
+### tree.addItem(item)
+Adds an item on the tree based in the item's parentId property
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| item | [<code>TreeItem</code>](#TreeItem) | The item to add |
+
+<a name="Tree+updateItem"></a>
+
+### tree.updateItem(item)
+Updates an item in the tree
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| item | [<code>TreeItem</code>](#TreeItem) | The item to update |
+
+<a name="Tree+deleteItemByI"></a>
+
+### tree.deleteItemByI(id)
+Deletes an item by id
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> \| <code>number</code> | The item id to delete |
+
+<a name="Tree+findItemById"></a>
+
+### tree.findItemById(id)
+Finds and returns an item by id
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> \| <code>number</code> | The id of the item to find |
+
+<a name="Tree+setEnabled"></a>
+
+### tree.setEnabled(enabled)
+Sets the enabled state of the Tree
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| enabled | <code>boolean</code> | True if the Tree is interactive |
+
+<a name="Tree+expandAll"></a>
+
+### tree.expandAll()
+Expands all the items with children
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
+<a name="Tree+contractAll"></a>
+
+### tree.contractAll()
+Contracts all the items in the tree
+
+**Kind**: instance method of [<code>Tree</code>](#Tree)  
 <a name="ReactGrid"></a>
 
 ## ReactGrid ⇐ <code>React.Component</code>
@@ -993,7 +1147,7 @@ React Tree component class
         * [.setData(root, [sort])](#ReactTree+setData)
         * [.sort(tree)](#ReactTree+sort)
         * [.selectItem(id, event)](#ReactTree+selectItem)
-        * [.getSelectedItemId()](#ReactTree+getSelectedItemId) ⇒ <code>string</code>
+        * [.getSelectedItemId()](#ReactTree+getSelectedItemId) ⇒ <code>string</code> \| <code>number</code>
         * [.generateItemClick(event, selectedItem)](#ReactTree+generateItemClick) ⇒ <code>boolean</code>
         * [.addItem(item)](#ReactTree+addItem)
         * [.updateItem(item)](#ReactTree+updateItem)
@@ -1081,7 +1235,8 @@ Selects an item in the tree by id
 
 <a name="ReactTree+getSelectedItemId"></a>
 
-### reactTree.getSelectedItemId() ⇒ <code>string</code>
+### reactTree.getSelectedItemId() ⇒ <code>string</code> \| <code>number</code>
+Gets the selected item
 Gets the selected item
 
 **Kind**: instance method of [<code>ReactTree</code>](#ReactTree)  

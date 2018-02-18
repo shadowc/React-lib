@@ -190,10 +190,11 @@ export default class ReactTree extends React.Component {
 
     /**
      * Gets the selected item
+     * Gets the selected item
      *
      * @memberOf ReactTree
      * @instance
-     * @return {string}
+     * @return {string|number}
      */
     getSelectedItemId() {
         return this.state.selectedItem;

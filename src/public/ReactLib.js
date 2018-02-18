@@ -1,4 +1,5 @@
 import Grid from '../es6/Grid';
+import Tree from '../es6/Tree';
 import Modal from '../es6/Modal';
 import TagsManager from '../es6/TagsManager';
 
@@ -8,4 +9,5 @@ if (typeof window.ReactLib === 'undefined') {
 
 window.ReactLib.Grid = Grid;
 window.ReactLib.Modal = Modal;
+window.ReactLib.Tree = Tree;
 window.ReactLib.TagsManager = TagsManager;
