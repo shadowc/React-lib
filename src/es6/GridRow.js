@@ -6,7 +6,6 @@ import $ from 'jquery';
  * @typedef {object} RowProps
  * @property {string} [id] The unique id of the row
  * @property {*} data The raw data for the row
- * @property {string} [className] The class for the row
  */
 
 /**
@@ -37,14 +36,6 @@ export default class GridRow {
          * @name GridRow#data
          */
         this.data = $.extend(true, {}, props);
-
-        /**
-         * The class for the row
-         *
-         * @name GridRow#className
-         * @type {string}
-         */
-        this.className = props.className ? props.className : '';
 
         /**
          * True if the row is selected

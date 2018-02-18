@@ -28,6 +28,16 @@ import GridColumn from '../es6/GridColumn';
  */
 
 /**
+ * ClassName callback, a function to return a className (string)
+ * based on row/column information
+ *
+ * @callback classNameCallback
+ * @param {*} row The row data
+ * @param {string} [column] The column we're rendering (for cell classNames)
+ * @return {string}
+ */
+
+/**
  * Definition for ReactGrid props object
  *
  * @typedef {object} GridProps
@@ -37,6 +47,10 @@ import GridColumn from '../es6/GridColumn';
  * @property {string} orderBy The column name that we're sorting for
  * @property {boolean} [orderReverse=false] True if we're in reverse order
  * @property {Object.<string,SortCallback>} [sortings] A set of sorting functions
+ * @property {classNameCallback} [rowClassName] A callback to set the classname of a row
+ * based on its data
+ * @property {classNameCallback} [cellClassName] A callback to set the classname of a cell
+ * based on its data
  * for each sortable column
  */
 
@@ -154,7 +168,8 @@ export default class ReactGrid extends React.Component {
      * @return {HTMLElement}
      */
     renderRow(row) {
-        const className = `${row.className} ${row.selected ? 'selected' : ''}`;
+        const rowClassName = this.props.rowClassName(row.data);
+        const className = `${rowClassName} ${row.selected ? 'selected' : ''}`;
         const style = { display: row.show ? 'table-row' : 'none' };
 
         return (
@@ -180,12 +195,14 @@ export default class ReactGrid extends React.Component {
      * @return {HTMLElement}
      */
     renderCell(row, col) {
+        const className = this.props.cellClassName(row.data, col);
         const style = { width: col.width };
 
         return (
             <td
                 key={`${row.id} ${col.name}`}
                 style={style}
+                className={className}
                 onClick={this.generateCellClick.bind(this, row, col.name)}
             >
                 {typeof col.format === 'function' ? col.format.call(this, row.data[col.name], row) : row.data[col.name]}
@@ -661,7 +678,9 @@ ReactGrid.propTypes = {
     orderReverse: PropTypes.bool,
     sortings: PropTypes.objectOf(PropTypes.func),
     onColumnHeaderClick: PropTypes.func,
-    onCellClick: PropTypes.func
+    onCellClick: PropTypes.func,
+    rowClassName: PropTypes.func,
+    cellClassName: PropTypes.func
 };
 
 /**
@@ -680,5 +699,7 @@ ReactGrid.defaultProps = {
     sortings: {},
     initialData: [],
     onColumnHeaderClick: null,
-    onCellClick: null
+    onCellClick: null,
+    rowClassName: () => (''),
+    cellClassName: () => ('')
 };

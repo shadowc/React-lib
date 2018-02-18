@@ -92,6 +92,7 @@ exports[`ReactGrid Test that we can render a ReactGrid component with 2 rows 1`]
         }
       >
         <td
+          className=""
           onClick={[Function]}
           style={
             Object {
@@ -102,6 +103,7 @@ exports[`ReactGrid Test that we can render a ReactGrid component with 2 rows 1`]
           1
         </td>
         <td
+          className=""
           onClick={[Function]}
           style={
             Object {
@@ -122,6 +124,7 @@ exports[`ReactGrid Test that we can render a ReactGrid component with 2 rows 1`]
         }
       >
         <td
+          className=""
           onClick={[Function]}
           style={
             Object {
@@ -132,6 +135,7 @@ exports[`ReactGrid Test that we can render a ReactGrid component with 2 rows 1`]
           2
         </td>
         <td
+          className=""
           onClick={[Function]}
           style={
             Object {
