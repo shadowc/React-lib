@@ -202,9 +202,10 @@ export default class ReactGrid extends React.Component {
     renderCell(row, col) {
         const className = this.props.cellClassName(row.data, col);
         const style = { width: col.width };
+        const rowData = (row.data[col.name] ? row.data[col.name].toString() : '');
         const contents = typeof col.format === 'function' ?
             col.format.call(this, row.data[col.name], row) :
-            row.data[col.name].toString();
+            rowData;
 
         return (
             <td
@@ -322,18 +323,18 @@ export default class ReactGrid extends React.Component {
 
         if (rowNdx !== -1) {
             if (this.props.selectable) {
-                if (!event.shiftKey && !event.ctrlKey) {
+                if (!event.shiftKey && !event.ctrlKey && !event.metaKey) {
                     // normal select
                     selectOneRow(row);
                     updateLastRow = true;
                 } else if (event.shiftKey && this.props.multiselect) {
                     // multi selection
                     selectRowRangeExclusive(row);
-                } else if (event.ctrlKey && this.props.multiselect) {
+                } else if ((event.ctrlKey || event.metaKey) && this.props.multiselect) {
                     // multi selection
                     row.selected = !row.selected;
                     updateLastRow = true;
-                } else if (event.shiftKey && event.ctrlKey && this.props.multiselect) {
+                } else if (event.shiftKey && (event.ctrlKey || event.metaKey) && this.props.multiselect) {
                     // multi selection
                     selectRowRange(row);
                 }
