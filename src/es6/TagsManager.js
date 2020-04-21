@@ -30,19 +30,23 @@ export default class TagsManager {
 
         tagFields.forEach((field) => {
             const tagRegExp = new RegExp(`^${tagFieldNamePrefix}\\_(\\d+)\\_(id|text)$`);
-            const [label, tagId, tagField] = field.id.match(tagRegExp);
+            const regExpResult = field.id.match(tagRegExp);
 
-            if (Number(tagId) !== currentTagId) {
-                tags.push(currentTag);
-                currentTagId = Number(tagId);
-                currentTag = {};
+            if (regExpResult !== null) {
+                const [label, tagId, tagField] = regExpResult;
+
+                if (Number(tagId) !== currentTagId) {
+                    tags.push(currentTag);
+                    currentTagId = Number(tagId);
+                    currentTag = {};
+                }
+
+                currentTag.tagId = currentTag.tagId ?
+                    `${currentTag.tagId}|${label}` :
+                    label;
+
+                currentTag[tagField] = field.value;
             }
-
-            currentTag.tagId = currentTag.tagId ?
-                `${currentTag.tagId}|${label}` :
-                label;
-
-            currentTag[tagField] = field.value;
         });
 
         if (currentTag.id && currentTag.text) {
