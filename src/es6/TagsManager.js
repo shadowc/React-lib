@@ -28,7 +28,7 @@ export default class TagsManager {
         let currentTagId = 0;
         let currentTag = {};
 
-        $(tagFields).each((ndx, field) => {
+        tagFields.forEach((field) => {
             const tagRegExp = new RegExp(`^${tagFieldNamePrefix}\\_(\\d+)\\_(id|text)$`);
             const [label, tagId, tagField] = field.id.match(tagRegExp);
 
