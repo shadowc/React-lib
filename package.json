@@ -36,7 +36,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
     "jest": "^22.1.4",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jsdoc-to-markdown": "^4.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
