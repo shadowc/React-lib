@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "rootDir": "src",
+        "strict": true,
+        "noImplicitAny": true,
+        "module": "es2015",
+        "target": "es5",
+        "allowJs": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react"
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "dist",
+        "__tests__",
+        "tests",
+        "samples"
+    ]
+}
