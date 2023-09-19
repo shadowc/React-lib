@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Grid = () =>{
-    return <div>TODO: Create a great component!</div>
+    return <div><p>TODO: Create a great component!</p></div>
 };
 
 export default Grid;

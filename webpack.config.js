@@ -17,8 +17,9 @@ module.exports = {
         [process.env.APP_ENV === 'production' ? 'dist/react-lib.umd' : 'dist/react-lib.umd.dev']: {
             import: path.resolve('./src/index'),
             library: {
-                name: 'React-Lib',
+                name: 'ReactLib',
                 type: 'umd',
+                export: 'default',
             }
         },
     },

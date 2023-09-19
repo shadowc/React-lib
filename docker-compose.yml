@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  web:
+    image: httpd:2.4
+    ports:
+      - '8000:80'
+    working_dir: /usr/local/apache2/htdocs
+    volumes:
+      - ./samples:/usr/local/apache2/htdocs
+
