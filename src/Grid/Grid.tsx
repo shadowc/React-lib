@@ -1,10 +1,125 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useGridState from './hooks/GridState';
+import GridColumn, { ColumnOptions } from './GridColumn';
+import GridRow, { RowOptions } from './GridRow';
+import GridColumnComponent from './GridColumnComponent';
+import GridRowComponent from './GridRowComponent';
 
-const Grid = () =>{
-    const { rawData } = useGridState();
+export type SortCallback = (a: GridRow, b: GridRow) => number;
+
+export type ClassNameCallback<T> = (row: RowOptions<T>, column?: string) => string;
+
+let __gridStateId = 0;
+const getNextGridStateId = () => (__gridStateId++).toString(10);
+
+export interface GridProps<T = any> {
+    id?: string;
+    initialData: RowOptions<T>[] | undefined;
+    columns: ColumnOptions[];
+    orderBy: string | undefined;
+    orderReverse?: boolean;
+    sortings?: Record<string, SortCallback>;
+    rowClassName?: ClassNameCallback<T>;
+    cellClassName?: ClassNameCallback<T>;
+    selectable?: boolean;
+    multiselect: boolean;
+    onColumnHeaderClick?: (column: GridColumn) => void;
+}
+
+function Grid<T>(props: GridProps<T>) {
+    const {
+        id,
+        initialData,
+        columns: columnsDef,
+        orderBy: orderByDef,
+        orderReverse: orderReverseDef,
+        sortings: sortingsDef,
+        onColumnHeaderClick,
+        rowClassName,
+        cellClassName,
+    } = props;
+
+    const stateId = id ?? getNextGridStateId();
+
+    const {
+        rawData,
+        setRawData,
+        columns,
+        setColumns,
+        rows,
+        setRows,
+        orderBy,
+        setOrderBy,
+        orderReverse,
+        setOrderReverse,
+        enabled,
+        loading,
+        sortRows,
+        sortings,
+        setSortings,
+    } = useGridState<T>(stateId);
+
+    useEffect(() => {
+        if (initialData !== undefined) {
+            setRows(initialData?.map(row => new GridRow(row)));
+            setRawData(initialData);
+        }
     
-    return <div><p>TODO: Create a great component!</p></div>
+        setColumns(columnsDef.map(col => new GridColumn(col)));
+
+        if (orderByDef !== undefined) {
+            setOrderBy(orderByDef);
+        }
+
+        if (orderReverseDef !== undefined) {
+            setOrderReverse(orderReverseDef);
+        }
+
+        if (sortingsDef !== undefined) {
+            setSortings(sortingsDef);
+        }
+
+        sortRows();
+    }, [setColumns, setRows, setOrderBy, setRawData, setSortings]);
+
+    const className = `table-wrapper${enabled ? '' : ' disabled'}`;
+
+    return (
+        <div className={className} id={id}>
+            <table className="table-header">
+                <thead><tr>{
+                    columns.map((column) => 
+                        <GridColumnComponent 
+                            column={column} 
+                            id={stateId} 
+                            onColumnHeaderClick={onColumnHeaderClick} 
+                            enabled={enabled}
+                        />
+                    )
+                }</tr></thead>
+            </table>
+
+            <table className="table-body">
+                <tbody>
+                    { loading ?
+                        (<tr>
+                            <td colSpan={columns.length}>
+                                <span className="icon loading">&nbsp;</span>
+                            </td>
+                        </tr>) :
+                        rows.map((row) =>
+                            <GridRowComponent
+                                row={row}
+                                columns={columns}
+                                rowClassName={rowClassName}
+                                cellClassName={cellClassName}
+                            />
+                        )
+                    }
+                </tbody>
+            </table>
+        </div>
+    );
 };
 
 export default Grid;
