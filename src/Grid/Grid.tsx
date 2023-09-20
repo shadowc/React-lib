@@ -1,123 +1,84 @@
-import React, { useEffect } from 'react';
-import useGridState from './hooks/GridState';
-import GridColumn, { ColumnOptions } from './GridColumn';
-import GridRow, { RowOptions } from './GridRow';
-import GridColumnComponent from './GridColumnComponent';
-import GridRowComponent from './GridRowComponent';
+import React, { createContext, useEffect, useState } from 'react';
+import { GridRowData } from './interfaces/RowData';
+import { GridColumnData } from './interfaces/ColumnData';
+import { GridState } from './interfaces/State';
+import createRowsContext from './context/RowsContext';
 
-export type SortCallback<T> = (a: GridRow<T>, b: GridRow<T>) => number;
-
-export type ClassNameCallback<T> = (row: RowOptions<T>, column?: string) => string;
-
-let __gridStateId = 0;
-const getNextGridStateId = () => (__gridStateId++).toString(10);
-
-export interface GridProps<T extends {} = {}> {
-    id?: string;
-    initialData: RowOptions<T>[] | undefined;
-    columns: ColumnOptions[];
-    orderBy: string | undefined;
-    orderReverse?: boolean;
-    sortings?: Record<string, SortCallback<T>>;
-    rowClassName?: ClassNameCallback<T>;
-    cellClassName?: ClassNameCallback<T>;
-    selectable?: boolean;
-    multiselect: boolean;
-    onColumnHeaderClick?: (column: GridColumn) => void;
+export interface GridProps<T extends GridRowData = GridRowData> {
+    initialData: T[] | undefined;
+    columns: GridColumnData[];
+    initialState: GridState;
+    onColumnHeaderClick?: (column: GridColumnData) => void;
+    onRowClick?: (row: T) => void;
+    onCellClick?: (row: T, fieldName: string) => void;
 }
 
 export default function Grid(props: GridProps) {
     const {
-        id,
         initialData,
         columns: columnsDef,
-        orderBy: orderByDef,
-        orderReverse: orderReverseDef,
-        sortings: sortingsDef,
+        initialState,
         onColumnHeaderClick,
-        rowClassName,
-        cellClassName,
+        onRowClick,
+        onCellClick,
     } = props;
 
-    const stateId = id ?? getNextGridStateId();
+    const [rowsContextData, setRowsContextData] = useState(initialData || []);
+    const [columnsContextData, setColumnsContextData] = useState<GridColumnData[]>(columnsDef);
+    const [stateContextData, setStateContextData] = useState<GridState>(initialState);
 
-    const {
-        rawData,
-        setRawData,
-        columns,
-        setColumns,
-        rows,
-        setRows,
-        orderBy,
-        setOrderBy,
-        orderReverse,
-        setOrderReverse,
-        enabled,
-        loading,
-        sortRows,
-        sortings,
-        setSortings,
-    } = useGridState();
+    const RowsContext = createRowsContext();
+    const ColumnsContext = createContext<GridColumnData[]>([]);
+    const StateContext = createContext<GridState>({});
 
     useEffect(() => {
+        let nextRowId = 0;
+        const getNextRowId = () => (nextRowId++).toString();
+
         if (initialData !== undefined) {
-            setRows(initialData?.map(row => new GridRow(row)));
-            setRawData(initialData);
-        }
-    
-        setColumns(columnsDef.map(col => new GridColumn(col)));
-
-        if (orderByDef !== undefined) {
-            setOrderBy(orderByDef);
+            setRowsContextData(initialData?.map(row => ({...row, id: row.id ?? getNextRowId() })));
         }
 
-        if (orderReverseDef !== undefined) {
-            setOrderReverse(orderReverseDef);
-        }
+        setStateContextData({
+            enabled: initialState.enabled ?? true,
+            multiselect: initialState.multiselect ?? false,
+            orderReverse: initialState.orderReverse ?? false,
+            selectable: initialState.selectable ?? false,
+            orderBy: initialState.orderBy ?? columnsContextData[0].name,
+            loading: initialState.loading ?? false,
+        });
+    }, [setRowsContextData, setStateContextData]);
 
-        if (sortingsDef !== undefined) {
-            setSortings(sortingsDef);
-        }
-
-        sortRows();
-    }, [setColumns, setRows, setOrderBy, setRawData, setSortings]);
-
-    const className = `table-wrapper${enabled ? '' : ' disabled'}`;
+    const className = `table-wrapper${stateContextData.enabled ? '' : ' disabled'}`;
 
     return (
-        <div className={className} id={id}>
-            <table className="table-header">
-                <thead><tr>{
-                    columns.map((column) => 
-                        <GridColumnComponent 
-                            column={column} 
-                            id={stateId} 
-                            onColumnHeaderClick={onColumnHeaderClick} 
-                            enabled={enabled}
-                        />
-                    )
-                }</tr></thead>
-            </table>
+        <ColumnsContext.Provider value={columnsContextData}>
+            <RowsContext.Provider value={rowsContextData}>
+                <StateContext.Provider value={stateContextData}>
+                    <div className={className}>
+                        <table className="table-header">
+                            <thead><tr>{
+                                columnsContextData.map((column) => 
+                                    <GridColumnComponent column={column.name} />
+                                )
+                            }</tr></thead>
+                        </table>
 
-            <table className="table-body">
-                <tbody>
-                    { loading ?
-                        (<tr>
-                            <td colSpan={columns.length}>
-                                <span className="icon loading">&nbsp;</span>
-                            </td>
-                        </tr>) :
-                        rows.map((row) =>
-                            <GridRowComponent
-                                row={row}
-                                columns={columns}
-                                rowClassName={rowClassName}
-                                cellClassName={cellClassName}
-                            />
-                        )
-                    }
-                </tbody>
-            </table>
-        </div>
+                        <table className="table-body">
+                            <tbody>
+                                { stateContextData.loading ?
+                                    (<tr>
+                                        <td colSpan={columnsContextData.length}>
+                                            <span className="icon loading">&nbsp;</span>
+                                        </td>
+                                    </tr>) :
+                                    rowsContextData.map((row) => <GridRowComponent row={row} />)
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </StateContext.Provider>
+            </RowsContext.Provider>
+        </ColumnsContext.Provider>
     );
 };
