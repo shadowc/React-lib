@@ -4,14 +4,14 @@ import GridRow from './GridRow';
 import GridColumn from './GridColumn';
 import GridCellComponent from './GridCellComponent';
 
-export interface GridRowComponentProps<T = any> {
+export interface GridRowComponentProps<T = {}> {
     row: GridRow<T>;
     columns: GridColumn[];
     rowClassName?: classNameCallback;
     cellClassName?: classNameCallback;
 }
 
-function GridRowComponent<T>(props: GridRowComponentProps<T>) {
+function GridRowComponent(props: GridRowComponentProps) {
     const { row, rowClassName, cellClassName, columns } = props;
     const fnClassName = rowClassName !== undefined ? rowClassName(row.data) : '';
     const className = `${fnClassName} ${row.selected ? 'selected' : ''}`;

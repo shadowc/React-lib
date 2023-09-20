@@ -9,9 +9,9 @@
         <script>
             window.onload = () => {
                 const root = ReactDOM.createRoot(document.getElementById('grid'));
-                console.log(root);
-                console.log(ReactLib.Grid);
-                root.render(ReactLib.Grid());
+                const grid = root.render(ReactLib.Grid({ columns: [{ name: 'a' }]}));
+
+                console.log(grid);
             };
         </script>
     </head>

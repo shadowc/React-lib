@@ -1,7 +1,7 @@
 import React from 'react';
 import GridRow from './GridRow';
 
-export type FormattingCallback<T = any> = (value: any, row: GridRow<T>) => string | HTMLElement | React.Component;
+export type FormattingCallback<T = {}> = (value: any, row: GridRow<T>) => string | HTMLElement | React.Component;
 
 export interface ColumnOptions {
     name: string;

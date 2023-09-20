@@ -5,20 +5,20 @@ import GridRow, { RowOptions } from './GridRow';
 import GridColumnComponent from './GridColumnComponent';
 import GridRowComponent from './GridRowComponent';
 
-export type SortCallback = (a: GridRow, b: GridRow) => number;
+export type SortCallback<T> = (a: GridRow<T>, b: GridRow<T>) => number;
 
 export type ClassNameCallback<T> = (row: RowOptions<T>, column?: string) => string;
 
 let __gridStateId = 0;
 const getNextGridStateId = () => (__gridStateId++).toString(10);
 
-export interface GridProps<T = any> {
+export interface GridProps<T extends {} = {}> {
     id?: string;
     initialData: RowOptions<T>[] | undefined;
     columns: ColumnOptions[];
     orderBy: string | undefined;
     orderReverse?: boolean;
-    sortings?: Record<string, SortCallback>;
+    sortings?: Record<string, SortCallback<T>>;
     rowClassName?: ClassNameCallback<T>;
     cellClassName?: ClassNameCallback<T>;
     selectable?: boolean;
@@ -26,7 +26,7 @@ export interface GridProps<T = any> {
     onColumnHeaderClick?: (column: GridColumn) => void;
 }
 
-function Grid<T>(props: GridProps<T>) {
+export default function Grid(props: GridProps) {
     const {
         id,
         initialData,
@@ -57,7 +57,7 @@ function Grid<T>(props: GridProps<T>) {
         sortRows,
         sortings,
         setSortings,
-    } = useGridState<T>(stateId);
+    } = useGridState();
 
     useEffect(() => {
         if (initialData !== undefined) {
@@ -121,5 +121,3 @@ function Grid<T>(props: GridProps<T>) {
         </div>
     );
 };
-
-export default Grid;

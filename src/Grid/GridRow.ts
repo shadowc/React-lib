@@ -1,4 +1,4 @@
-export interface RowOptions<T = any> {
+export interface RowOptions<T = {}> {
     id?: string;
     data: T;
 }
@@ -7,7 +7,7 @@ let __nextRowId = 0;
 
 const getNextRowId = () => (__nextRowId++).toString(10);
 
-export default class GridRow<T = any> {
+export default class GridRow<T = {}> {
     id: string;
     data: RowOptions<T>;
     selected: boolean = false;

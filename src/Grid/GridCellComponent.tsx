@@ -3,13 +3,13 @@ import GridColumn from './GridColumn';
 import GridRow from './GridRow';
 import { ClassNameCallback } from './Grid';
 
-interface GridCellComponentProps<T> {
+interface GridCellComponentProps<T = {}> {
     row: GridRow<T>;
     col: GridColumn;
     cellClassName?: ClassNameCallback<T>;
 }
 
-function GridCellComponent<T = any>(props: GridCellComponentProps<T>) {
+function GridCellComponent(props: GridCellComponentProps) {
     const { row, col, cellClassName } = props;
     const data = row.data as Record<string, any>;
     const className = cellClassName !== undefined ? cellClassName(row.data, col.name) : '';
